@@ -12,7 +12,7 @@ import java.util.List;
 public class ISpendingDAO implements SpendingDAO {
     private AccountService accountService = new AccountService();
     private Spending spending = new Spending();
-    private SingletonConnection singletonConnection = new SingletonConnection();
+    private static Connection connection= SingletonConnection.getConnection();
     private Account account = new Account();
     private static final String INSERT_SPENDING_SQL = "INSERT INTO spending (type,amount,date,description,account_id) VALUES (?, ?, ?,?)";
     private static final String SELECT_ALL_SPENDING = "select * from spending";
@@ -23,7 +23,6 @@ public class ISpendingDAO implements SpendingDAO {
     @Override
     public List<Spending> findAll() throws SQLException {
         List<Spending> spendings = new ArrayList<>();
-        Connection connection = singletonConnection.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_SPENDING);
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
@@ -42,7 +41,7 @@ public class ISpendingDAO implements SpendingDAO {
     @Override
     public void save(Spending spending) {
         System.out.println(INSERT_SPENDING_SQL);
-        try (Connection connection = singletonConnection.getConnection();
+        try (
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_SPENDING_SQL)) {
             preparedStatement.setInt(1, spending.getId());
             preparedStatement.setString(2, spending.getType());
@@ -63,7 +62,6 @@ public class ISpendingDAO implements SpendingDAO {
     @Override
     public Spending findById(int id) throws SQLException {
         Spending spending = null;
-        Connection connection = singletonConnection.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_SPENDING_BY_ID);
         preparedStatement.setInt(1, id);
         ResultSet rs = preparedStatement.executeQuery();
@@ -82,7 +80,6 @@ public class ISpendingDAO implements SpendingDAO {
     @Override
     public boolean update(Spending spending) throws SQLException {
         boolean update;
-        Connection connection = singletonConnection.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_SPENDING_SQL);
         preparedStatement.setString(1,spending.getType());
         preparedStatement.setDouble(2,spending.getAmount());
@@ -96,7 +93,6 @@ public class ISpendingDAO implements SpendingDAO {
     @Override
     public boolean deleteById(int id) throws SQLException {
         boolean delete;
-        Connection connection =singletonConnection.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_SPENDING_SQL);
         preparedStatement.setInt(1,id);
         delete = preparedStatement.executeUpdate()>0;

@@ -65,16 +65,6 @@ public class ServiceLoan implements ILoanService{
         return loanList;
     }
 
-    public static void main(String[] args) {
-        ServiceLoan serviceLoan = new ServiceLoan();
-        List<Loan> loanList = serviceLoan.findAll();
-        for (Loan l: loanList
-             ) {
-            System.out.println(l);
-        }
-        System.out.println(serviceLoan.findById(1));
-    }
-
     @Override
     public void save(Loan loan) {
         try {
