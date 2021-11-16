@@ -1,6 +1,8 @@
 package com.group4.controller.spending;
 
+import com.group4.model.account.Account;
 import com.group4.model.financial.Spending;
+import com.group4.service.accountService.AccountService;
 import com.group4.service.spendingService.ISpendingDAO;
 
 import javax.servlet.*;
@@ -13,6 +15,7 @@ import java.util.List;
 
 @WebServlet(name = "SpendingServlet", value = "/spending")
 public class SpendingServlet extends HttpServlet {
+    private AccountService accountService = new AccountService();
     private ISpendingDAO spendingDAO = new ISpendingDAO();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -34,6 +37,13 @@ public class SpendingServlet extends HttpServlet {
         case "search":
             try {
                 showSearch(request,response);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            break;
+        case "edit":
+            try {
+                editSpending(request,response);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -87,6 +97,18 @@ public class SpendingServlet extends HttpServlet {
                 createNewSpending(request,response);
                 break;
         }
+    }
+
+    private void editSpending(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        int id_account = Integer.parseInt(request.getParameter("id"));
+        Account account = accountService.findById(id_account);
+        String type = request.getParameter("type");
+        Double amount = Double.valueOf(request.getParameter("amount"));
+        Date date = Date.valueOf(request.getParameter("date"));
+        String description = request.getParameter("description");
+        Spending spending = new Spending(type,description,amount,date,account);
+        spendingDAO.update(spending);
+        response.sendRedirect("/spending");
     }
 
     private void createNewSpending(HttpServletRequest request, HttpServletResponse response) {
