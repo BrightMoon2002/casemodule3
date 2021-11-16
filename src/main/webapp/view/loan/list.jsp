@@ -11,7 +11,7 @@
     <title>Title</title>
 </head>
 <body>
-
+<a href="/loans?action=create">create new loan</a>
 
 
 </body>
