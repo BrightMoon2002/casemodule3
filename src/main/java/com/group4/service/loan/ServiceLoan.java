@@ -1,10 +1,13 @@
 package com.group4.service.loan;
 
 import com.group4.model.loan.Loan;
+import config.SingletonConnection;
 
+import java.sql.Connection;
 import java.util.List;
 
 public class ServiceLoan implements ILoanService{
+    private static Connection connection = SingletonConnection.getConnection();
     @Override
     public List<Loan> findAll() {
         return null;
