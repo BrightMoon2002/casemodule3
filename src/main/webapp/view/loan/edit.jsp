@@ -28,12 +28,12 @@
             </tr>
             <tr> <td>End of Loan: </td>
                 <td>
-                    <input type="text" name="endOfLoan" value="${LoanEdit.getEndOfLoan()}">
+                    <input type="text" name="endOfLoan" value="${loanEdit.getEndOfLoan()}">
                 </td>
             </tr>
             <tr> <td>Amount:  </td>
                 <td>
-                    <input type="number" name="amount" value="${bookEdit.getAmount()}">
+                    <input type="number" name="amount" value="${loanEdit.getAmount()}">
                 </td>
             </tr>
             <tr> <td>Interest:  </td>
