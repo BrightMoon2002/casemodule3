@@ -1,7 +1,6 @@
 package com.group4.controller.spendingMonthLimitServlet;
 
 import com.group4.model.account.Account;
-import com.group4.model.financial.Revenue;
 import com.group4.model.limit.SpendingMonthLimit;
 import com.group4.service.accountService.AccountService;
 import com.group4.service.accountService.IAccountService;
@@ -15,7 +14,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -188,6 +186,5 @@ public class SpendingMonthLimitServlet extends HttpServlet {
 
         }
     }
-
 
 }
