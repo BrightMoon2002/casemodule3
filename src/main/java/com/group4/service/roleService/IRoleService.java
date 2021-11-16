@@ -1,4 +1,4 @@
-package com.group4.roleService;
+package com.group4.service.roleService;
 
 import com.group4.model.account.Role;
 import com.group4.service.IService;

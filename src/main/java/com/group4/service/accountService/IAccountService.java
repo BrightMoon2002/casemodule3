@@ -1,4 +1,4 @@
-package com.group4.accountService;
+package com.group4.service.accountService;
 
 import com.group4.model.account.Account;
 import com.group4.service.IService;

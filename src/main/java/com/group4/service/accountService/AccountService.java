@@ -1,9 +1,9 @@
-package com.group4.accountService;
+package com.group4.service.accountService;
 
 import com.group4.model.account.Account;
 import com.group4.model.account.Role;
-import com.group4.roleService.IRoleService;
-import com.group4.roleService.RoleService;
+import com.group4.service.roleService.IRoleService;
+import com.group4.service.roleService.RoleService;
 import config.SingletonConnection;
 
 import java.sql.Connection;
