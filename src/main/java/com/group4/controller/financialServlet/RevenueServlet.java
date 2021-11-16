@@ -1,4 +1,4 @@
-package com.group4.controller;
+package com.group4.controller.financialServlet;
 
 import com.group4.model.account.Account;
 import com.group4.model.financial.Revenue;
@@ -12,8 +12,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet(name = "RevenueServlet", value = "/revenue")
@@ -69,7 +68,12 @@ public class RevenueServlet extends HttpServlet {
 
 
     private void listRevenue(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Revenue> listRevenue = revenueService.findAll();
+        List<Revenue> listRevenue = null;
+        try {
+            listRevenue = revenueService.findAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         request.setAttribute("listRevenue", listRevenue);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("revenue/list.jsp");
         requestDispatcher.forward(request, response);
@@ -98,7 +102,12 @@ public class RevenueServlet extends HttpServlet {
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         int id = Integer.parseInt(request.getParameter("id"));
-        Revenue existingRevenue = revenueService.findById(id);
+        Revenue existingRevenue = null;
+        try {
+            existingRevenue = revenueService.findById(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
 
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("revenue/edit.jsp");
@@ -120,7 +129,11 @@ public class RevenueServlet extends HttpServlet {
 
         Revenue revenue = new Revenue(id, type,description, amount, date, account);
 
-        revenueService.update(revenue);
+        try {
+            revenueService.update(revenue);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -128,8 +141,17 @@ public class RevenueServlet extends HttpServlet {
     private void deleteRevenue(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         int id = Integer.parseInt(request.getParameter("id"));
 
-        revenueService.deleteById(id);
-        List<Revenue> revenues = revenueService.findAll();
+        try {
+            revenueService.deleteById(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        List<Revenue> revenues = null;
+        try {
+            revenues = revenueService.findAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
 
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("revenue/list.jsp");
@@ -146,7 +168,12 @@ public class RevenueServlet extends HttpServlet {
 
     private void findRevenueById(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         int id = Integer.parseInt(request.getParameter("id"));
-        Revenue revenue = revenueService.findById(id);
+        Revenue revenue = null;
+        try {
+            revenue = revenueService.findById(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         if  (revenue == null) {
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("revenue/find.jsp");

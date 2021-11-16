@@ -1,4 +1,4 @@
-package com.group4.controller;
+package com.group4.controller.financialServlet;
 
 import com.group4.model.financial.Spending;
 import com.group4.service.spending.ISpendingDAO;

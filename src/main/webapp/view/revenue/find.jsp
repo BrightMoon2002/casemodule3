@@ -15,6 +15,9 @@
 <center>
     <h1>Revenue Management</h1>
     <h2>
+        <a href="revenue?action=revenue">List All Revenues</a>
+    </h2>
+    <h2>
         <a href="revenue?action=create">Add New Revenue</a>
     </h2>
     <h2>

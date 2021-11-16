@@ -14,7 +14,7 @@ import java.util.List;
 public class RevenueService implements IRevenueService {
     Connection connection = SingletonConnection.getConnection();
      private static final String SELECT_ALL_REVENUES = "select * from revenue;";
-     private static final String INSERT_REVENUE_SQL = "insert into revenue (id, type, amount, date, descripton, account_id) values (?, ?, ?, ?, ?, ?);";
+     private static final String INSERT_REVENUE_SQL = "insert into revenue (type, amount, date, descripton, account_id) values (?, ?, ?, ?, ?);";
      private static final String SELECT_REVENUE_BY_ID = "select * from revenue where id = ?;";
      private static final String UPDATE_REVENUE= "update revenue set type = ?, amount = ?, date = ?, description = ?, account_id = ? where id = ?;";
      private static final String DELETE_REVENUE_SQL = "delete from revenue where id=?;";
@@ -31,12 +31,12 @@ public class RevenueService implements IRevenueService {
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String type = resultSet.getString("type");
-                int amount = resultSet.getInt("amount");
+                double amount = resultSet.getDouble("amount");
                 Date date = resultSet.getDate("date");
                 String description = resultSet.getString("description");
                 int account_id = resultSet.getInt("account_id");
 
-                Account account = accountService.findById(id);
+                Account account = accountService.findById(account_id);
 
 
                 revenues.add(new Revenue(id, type, description, amount, date, account));
@@ -54,12 +54,11 @@ public class RevenueService implements IRevenueService {
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_REVENUE_SQL);
-            preparedStatement.setInt(1, revenue.getId());
-            preparedStatement.setString(2, revenue.getType());
-            preparedStatement.setDouble(3, revenue.getAmount());
-            preparedStatement.setDate(4, revenue.getDate());
-            preparedStatement.setString(5, revenue.getDescription());
-            preparedStatement.setInt(6, revenue.getAccount().getId());
+            preparedStatement.setString(1, revenue.getType());
+            preparedStatement.setDouble(2, revenue.getAmount());
+            preparedStatement.setDate(3, revenue.getDate());
+            preparedStatement.setString(4, revenue.getDescription());
+            preparedStatement.setInt(5, revenue.getAccount().getId());
 
             preparedStatement.executeUpdate();
 
@@ -84,7 +83,7 @@ public class RevenueService implements IRevenueService {
                 String description = resultSet.getString("description");
                 int account_id = resultSet.getInt("account_id");
 
-                Account account = accountService.findById(id);
+                Account account = accountService.findById(account_id);
 
                 revenue = new Revenue(id, type, description, amount, date, account);
             }
