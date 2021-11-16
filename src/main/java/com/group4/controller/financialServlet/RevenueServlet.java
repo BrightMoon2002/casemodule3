@@ -75,12 +75,12 @@ public class RevenueServlet extends HttpServlet {
             e.printStackTrace();
         }
         request.setAttribute("listRevenue", listRevenue);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("revenue/list.jsp");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/revenue/list.jsp");
         requestDispatcher.forward(request, response);
     }
 
     private void showCreateForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("revenue/create.jsp");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/revenue/create.jsp");
         requestDispatcher.forward(request, response);
     }
 
@@ -97,6 +97,7 @@ public class RevenueServlet extends HttpServlet {
 
         revenueService.save(revenue);
 
+        listRevenue(request, response);
     }
 
 
@@ -110,7 +111,7 @@ public class RevenueServlet extends HttpServlet {
         }
 
 
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("revenue/edit.jsp");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/revenue/edit.jsp");
         request.setAttribute("revenue", existingRevenue);
         requestDispatcher.forward(request, response);
 
@@ -135,6 +136,8 @@ public class RevenueServlet extends HttpServlet {
             e.printStackTrace();
         }
 
+        listRevenue(request, response);
+
     }
 
 
@@ -154,7 +157,7 @@ public class RevenueServlet extends HttpServlet {
         }
 
 
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("revenue/list.jsp");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/revenue/list.jsp");
         request.setAttribute("listRevenue", revenues);
         requestDispatcher.forward(request, response);
 
@@ -162,7 +165,7 @@ public class RevenueServlet extends HttpServlet {
     }
 
     private void showFindById(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("revenue/find.jsp");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/revenue/find.jsp");
         requestDispatcher.forward(request, response);
     }
 
@@ -176,14 +179,14 @@ public class RevenueServlet extends HttpServlet {
         }
 
         if  (revenue == null) {
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("revenue/find.jsp");
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/revenue/find.jsp");
             request.setAttribute("message", "Couldn't find the revenue");
             requestDispatcher.forward(request, response);
 
 
 
         } else {
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("revenue/find.jsp");
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/revenue/find.jsp");
             request.setAttribute("revenue", revenue);
             request.setAttribute("result", true);
             requestDispatcher.forward(request, response);

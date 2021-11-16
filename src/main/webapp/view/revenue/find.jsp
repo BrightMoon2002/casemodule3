@@ -20,9 +20,6 @@
     <h2>
         <a href="revenue?action=create">Add New Revenue</a>
     </h2>
-    <h2>
-        <a href="revenue?action=findById">Find Revenue By ID</a>
-    </h2>
     <c:if test="${requestScope['message'] != null}">
         <p>${requestScope['message']}</p>
     </c:if>
@@ -42,20 +39,18 @@
                 <th>Account ID</th>
                 <th>Actions</th>
             </tr>
-            <c:forEach var="revenue" items="${listRevenue}">
-                <tr>
-                    <td><c:out value="${revenue.id}"/></td>
-                    <td><c:out value="${revenue.type}"/></td>
-                    <td><c:out value="${revenue.amount}"/></td>
-                    <td><c:out value="${revenue.date}"/></td>
-                    <td><c:out value="${revenue.description}"/></td>
-                    <td><c:out value="${revenue.getAccount().getId()}"/></td>
-                    <td>
-                        <a href="/revenue?action=edit&id=${revenue.id}">Edit</a>
-                        <a href="/revenue?action=delete&id=${revenue.id}">Delete</a>
-                    </td>
-                </tr>
-            </c:forEach>
+            <tr>
+                <td><c:out value="${revenue.id}"/></td>
+                <td><c:out value="${revenue.type}"/></td>
+                <td><c:out value="${revenue.amount}"/></td>
+                <td><c:out value="${revenue.date}"/></td>
+                <td><c:out value="${revenue.description}"/></td>
+                <td><c:out value="${revenue.getAccount().getId()}"/></td>
+                <td>
+                    <a href="/revenue?action=edit&id=${revenue.id}">Edit</a>
+                    <a href="/revenue?action=delete&id=${revenue.id}">Delete</a>
+                </td>
+            </tr>
         </table>
     </c:if>
 </center>

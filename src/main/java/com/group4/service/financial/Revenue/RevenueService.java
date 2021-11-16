@@ -14,7 +14,7 @@ import java.util.List;
 public class RevenueService implements IRevenueService {
     Connection connection = SingletonConnection.getConnection();
      private static final String SELECT_ALL_REVENUES = "select * from revenue;";
-     private static final String INSERT_REVENUE_SQL = "insert into revenue (type, amount, date, descripton, account_id) values (?, ?, ?, ?, ?);";
+     private static final String INSERT_REVENUE_SQL = "insert into revenue (type, amount, date, description, account_id) values (?, ?, ?, ?, ?);";
      private static final String SELECT_REVENUE_BY_ID = "select * from revenue where id = ?;";
      private static final String UPDATE_REVENUE= "update revenue set type = ?, amount = ?, date = ?, description = ?, account_id = ? where id = ?;";
      private static final String DELETE_REVENUE_SQL = "delete from revenue where id=?;";

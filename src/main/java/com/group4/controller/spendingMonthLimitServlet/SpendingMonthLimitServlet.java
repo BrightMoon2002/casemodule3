@@ -77,12 +77,12 @@ public class SpendingMonthLimitServlet extends HttpServlet {
             e.printStackTrace();
         }
         request.setAttribute("listLimit", listLimit);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("limit/list.jsp");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/limit/list.jsp");
         requestDispatcher.forward(request, response);
     }
 
     private void showCreateForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("limit/create.jsp");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/limit/create.jsp");
         requestDispatcher.forward(request, response);
     }
 
@@ -95,6 +95,8 @@ public class SpendingMonthLimitServlet extends HttpServlet {
         SpendingMonthLimit limit = new SpendingMonthLimit(amount, account);
 
         limitService.save(limit);
+
+        listLimit(request, response);
 
     }
 
@@ -109,7 +111,7 @@ public class SpendingMonthLimitServlet extends HttpServlet {
         }
 
 
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("limit/edit.jsp");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/limit/edit.jsp");
         request.setAttribute("limit", existingLimit);
         requestDispatcher.forward(request, response);
 
@@ -131,6 +133,8 @@ public class SpendingMonthLimitServlet extends HttpServlet {
             e.printStackTrace();
         }
 
+        listLimit(request, response);
+
     }
 
 
@@ -150,7 +154,7 @@ public class SpendingMonthLimitServlet extends HttpServlet {
         }
 
 
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("limit/list.jsp");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/limit/list.jsp");
         request.setAttribute("listLimit", limits);
         requestDispatcher.forward(request, response);
 
@@ -158,7 +162,7 @@ public class SpendingMonthLimitServlet extends HttpServlet {
     }
 
     private void showFindById(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("limit/find.jsp");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/limit/find.jsp");
         requestDispatcher.forward(request, response);
     }
 
@@ -172,14 +176,14 @@ public class SpendingMonthLimitServlet extends HttpServlet {
         }
 
         if  (limit == null) {
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("limit/find.jsp");
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/limit/find.jsp");
             request.setAttribute("message", "Couldn't find the limit");
             requestDispatcher.forward(request, response);
 
 
 
         } else {
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("limit/find.jsp");
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/limit/find.jsp");
             request.setAttribute("limit", limit);
             request.setAttribute("result", true);
             requestDispatcher.forward(request, response);

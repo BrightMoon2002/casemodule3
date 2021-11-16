@@ -20,9 +20,6 @@
     <h2>
         <a href="limit?action=create">Add New Limit</a>
     </h2>
-    <h2>
-        <a href="limit?action=findById">Find Limit By ID</a>
-    </h2>
     <c:if test="${requestScope['message'] != null}">
         <p>${requestScope['message']}</p>
     </c:if>
@@ -39,17 +36,15 @@
                 <th>Account ID</th>
                 <th>Actions</th>
             </tr>
-            <c:forEach var="limit" items="${listLimit}">
-                <tr>
-                    <td><c:out value="${limit.id}"/></td>
-                    <td><c:out value="${limit.amount}"/></td>
-                    <td><c:out value="${limit.getAccount().getId()}"/></td>
-                    <td>
-                        <a href="/limit?action=edit&id=${limit.id}">Edit</a>
-                        <a href="/limit?action=delete&id=${limit.id}">Delete</a>
-                    </td>
-                </tr>
-            </c:forEach>
+            <tr>
+                <td><c:out value="${limit.id}"/></td>
+                <td><c:out value="${limit.amount}"/></td>
+                <td><c:out value="${limit.getAccount().getId()}"/></td>
+                <td>
+                    <a href="/limit?action=edit&id=${limit.id}">Edit</a>
+                    <a href="/limit?action=delete&id=${limit.id}">Delete</a>
+                </td>
+            </tr>
         </table>
     </c:if>
 </center>
