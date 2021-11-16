@@ -1,16 +1,17 @@
 package com.group4.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface IService<T> {
-    List<T> findAll();
+    List<T> findAll() throws SQLException;
 
     void save(T t);
 
-    T findById(int id);
+    T findById(int id) throws SQLException;
 
-    boolean update(T t);
+    boolean update(T t) throws SQLException;
 
-    boolean deleteById(int id);
+    boolean deleteById(int id) throws SQLException;
 
 }

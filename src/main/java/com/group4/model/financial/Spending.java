@@ -2,7 +2,7 @@ package com.group4.model.financial;
 
 import com.group4.model.account.Account;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Spending {
     private int id;
@@ -29,8 +29,9 @@ public class Spending {
         this.description = description;
         this.amount = amount;
         this.date = date;
-        this.account = account;
+        this.account =account;
     }
+
 
     public int getId() {
         return id;
