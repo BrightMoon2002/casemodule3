@@ -3,17 +3,18 @@ package com.group4.model.loan;
 import com.group4.model.account.Account;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 public class Loan {
     private int id;
-    private LocalDate startOfLoan;
-    private LocalDate endOfLoan;
+    private Date startOfLoan;
+    private Date endOfLoan;
     private double amount;
     private Account account;
     private Interest interest;
     private Loan_Status status;
 
-    public Loan(int id, LocalDate startOfLoan, LocalDate endOfLoan, double amount, Account account, Interest interest, Loan_Status status) {
+    public Loan(int id, Date startOfLoan, Date endOfLoan, double amount, Account account, Interest interest, Loan_Status status) {
         this.id = id;
         this.startOfLoan = startOfLoan;
         this.endOfLoan = endOfLoan;
@@ -26,7 +27,7 @@ public class Loan {
     public Loan() {
     }
 
-    public Loan(LocalDate startOfLoan, LocalDate endOfLoan, double amount, Account account, Interest interest, Loan_Status status) {
+    public Loan(Date startOfLoan, Date endOfLoan, double amount, Account account, Interest interest, Loan_Status status) {
         this.startOfLoan = startOfLoan;
         this.endOfLoan = endOfLoan;
         this.amount = amount;
@@ -43,19 +44,19 @@ public class Loan {
         this.id = id;
     }
 
-    public LocalDate getStartOfLoan() {
+    public Date getStartOfLoan() {
         return startOfLoan;
     }
 
-    public void setStartOfLoan(LocalDate startOfLoan) {
+    public void setStartOfLoan(Date startOfLoan) {
         this.startOfLoan = startOfLoan;
     }
 
-    public LocalDate getEndOfLoan() {
+    public Date getEndOfLoan() {
         return endOfLoan;
     }
 
-    public void setEndOfLoan(LocalDate endOfLoan) {
+    public void setEndOfLoan(Date endOfLoan) {
         this.endOfLoan = endOfLoan;
     }
 
