@@ -2,7 +2,6 @@ package com.group4.model.financial;
 
 import com.group4.model.account.Account;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 public class Spending {

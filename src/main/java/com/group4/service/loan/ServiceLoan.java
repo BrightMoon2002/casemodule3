@@ -19,12 +19,17 @@ import java.util.Date;
 import java.util.List;
 
 public class ServiceLoan implements ILoanService{
+    public static final String INSERT_LOAN = "INSERT INTO loan (account_id, startOfLoan, endOfLoan, interest_id, amount, status_id) VALUE (?, ?, ?, ?, ?, ?)";
+    public static final String SELECT_ALL_LOAN = "SELECT * FROM loan JOIN account a ON loan.account_id = a.id JOIN interest ON loan.interest_id = interest.id JOIN loan_status ON loan.status_id = loan_status.id join role on a.role_id = role.id";
+    public static final String SELECT_LOAN_BY_ID = "SELECT * FROM loan JOIN account a ON loan.account_id = a.id JOIN interest ON loan.interest_id = interest.id JOIN loan_status ON loan.status_id = loan_status.id join role on a.role_id = role.id WHERE loan.id = ?";
+    public static final String UPDATE_LOAN = "UPDATE loan set account_id = ?, startOfLoan = ?, endOfLoan = ?, interest_id = ?, amount = ?, status_id = ? WHERE id = ?";
+    public static final String DELETE_LOAN_BY_ID = "DELETE FROM loan where id = ?";
     private static Connection connection = SingletonConnection.getConnection();
     @Override
     public List<Loan> findAll() {
         List<Loan> loanList = new ArrayList<>();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM loan JOIN account a ON loan.account_id = a.id JOIN interest ON loan.interest_id = interest.id JOIN loan_status ON loan.status_id = loan_status.id join role on a.role_id = role.id");
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_LOAN);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 int idLoan = resultSet.getInt("id");
@@ -73,7 +78,7 @@ public class ServiceLoan implements ILoanService{
     @Override
     public void save(Loan loan) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO loan (account_id, startOfLoan, endOfLoan, interest_id, amount, status_id) VALUE (?, ?, ?, ?, ?, ?)");
+            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_LOAN);
             preparedStatement.setInt(1, loan.getAccount().getId());
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
             preparedStatement.setString(2, dateFormat.format(loan.getStartOfLoan()));
@@ -91,7 +96,7 @@ public class ServiceLoan implements ILoanService{
     public Loan findById(int id) {
         Loan  loan = new Loan();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM loan JOIN account a ON loan.account_id = a.id JOIN interest ON loan.interest_id = interest.id JOIN loan_status ON loan.status_id = loan_status.id join role on a.role_id = role.id WHERE loan.id = ? ");
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_LOAN_BY_ID);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()) {
@@ -132,7 +137,7 @@ public class ServiceLoan implements ILoanService{
     public boolean update(Loan loan) {
         boolean rowUpdate = false;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE loan set account_id = ?, startOfLoan = ?, endOfLoan = ?, interest_id = ?, amount = ?, status_id = ? WHERE id = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_LOAN);
             preparedStatement.setInt(1, loan.getAccount().getId());
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
             preparedStatement.setString(2, dateFormat.format(loan.getStartOfLoan()));
@@ -152,7 +157,7 @@ public class ServiceLoan implements ILoanService{
     public boolean deleteById(int id) {
         boolean rowDelete = false;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM loan where id = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_LOAN_BY_ID);
             preparedStatement.setInt(1, id);
             rowDelete = preparedStatement.executeUpdate()>0;
         } catch (SQLException throwables) {
