@@ -3,7 +3,9 @@ package com.group4.model.financial;
 import com.group4.model.account.Account;
 
 
-import java.util.Date;
+import java.sql.Date;
+
+
 
 public class Revenue {
     private int id;
