@@ -36,7 +36,7 @@
             <tr>
                 <th>Revenue Type:</th>
                 <td>
-                    <input type="text" name="type" id="type" size="45" value="<c:out value='${revenue.name}'/>"/>
+                    <input type="text" name="type" id="type" size="45" value="<c:out value='${revenue.type}'/>"/>
                 </td>
             </tr>
             <tr>

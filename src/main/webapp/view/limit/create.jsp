@@ -18,9 +18,6 @@
         <a href="limit?action=limit">List All Limits</a>
     </h2>
     <h2>
-        <a href="limit?action=create">Add New Limit</a>
-    </h2>
-    <h2>
         <a href="limit?action=findById">Find Limit By ID</a>
     </h2>
 </center>

@@ -31,8 +31,7 @@ public class ServiceLoan implements ILoanService{
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_LOAN);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                int idLoan = resultSet.getInt("id");
+            while (resultSet.next()) { int idLoan = resultSet.getInt("id");
                 int idAccount = resultSet.getInt("account_id");
                 Date startOfLoan = resultSet.getDate("startOfLoan");
                 Date endOfLoan = resultSet.getDate("endOfLoan");
@@ -63,16 +62,6 @@ public class ServiceLoan implements ILoanService{
             throwables.printStackTrace();
         }
         return loanList;
-    }
-
-    public static void main(String[] args) {
-        ServiceLoan serviceLoan = new ServiceLoan();
-        List<Loan> loanList = serviceLoan.findAll();
-        for (Loan l: loanList
-             ) {
-            System.out.println(l);
-        }
-        System.out.println(serviceLoan.findById(1));
     }
 
     @Override

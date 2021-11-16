@@ -12,7 +12,10 @@ import java.util.List;
 public class ISpendingDAO implements SpendingDAO {
     private AccountService accountService = new AccountService();
     private Spending spending = new Spending();
-    private Connection connection = SingletonConnection.getConnection();
+
+    private static Connection connection= SingletonConnection.getConnection();
+
+
     private Account account = new Account();
     private static final String INSERT_SPENDING_SQL = "INSERT INTO spending (type,amount,date,description,account_id) VALUES (?, ?, ?,?)";
     private static final String SELECT_ALL_SPENDING = "select * from spending";
@@ -44,7 +47,8 @@ public class ISpendingDAO implements SpendingDAO {
     public void save(Spending spending) {
         System.out.println(INSERT_SPENDING_SQL);
         try (
-                PreparedStatement preparedStatement = connection.prepareStatement(INSERT_SPENDING_SQL)) {
+
+             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_SPENDING_SQL)) {
             preparedStatement.setInt(1, spending.getId());
             preparedStatement.setString(2, spending.getType());
             preparedStatement.setDouble(3, spending.getAmount());
