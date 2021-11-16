@@ -10,8 +10,8 @@ public interface IService<T> {
 
     T findById(int id) throws SQLException;
 
-    boolean update(T t);
+    boolean update(T t) throws SQLException;
 
-    boolean deleteById(int id);
+    boolean deleteById(int id) throws SQLException;
 
 }
