@@ -1,12 +1,13 @@
 package com.group4.service.financial.Revenue;
 
+
 import com.group4.model.account.Account;
 import com.group4.model.financial.Revenue;
+import com.group4.service.accountService.AccountService;
+import com.group4.service.accountService.IAccountService;
 import config.SingletonConnection;
 
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,10 +57,7 @@ public class RevenueService implements IRevenueService {
             preparedStatement.setInt(1, revenue.getId());
             preparedStatement.setString(2, revenue.getType());
             preparedStatement.setDouble(3, revenue.getAmount());
-
-            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-
-            preparedStatement.setString(4, dateFormat.format(revenue.getDate()));
+            preparedStatement.setDate(4, revenue.getDate());
             preparedStatement.setString(5, revenue.getDescription());
             preparedStatement.setInt(6, revenue.getAccount().getId());
 
@@ -103,10 +101,7 @@ public class RevenueService implements IRevenueService {
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_REVENUE);
             preparedStatement.setString(1, revenue.getType());
             preparedStatement.setDouble(2, revenue.getAmount());
-
-            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-
-            preparedStatement.setString(3, dateFormat.format(revenue.getDate()));
+            preparedStatement.setDate(3, revenue.getDate());
             preparedStatement.setString(4, revenue.getDescription());
             preparedStatement.setInt(5, revenue.getAccount().getId());
             preparedStatement.setInt(6, revenue.getId());
