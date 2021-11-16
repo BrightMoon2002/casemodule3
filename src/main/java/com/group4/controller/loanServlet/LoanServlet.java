@@ -1,6 +1,11 @@
 package com.group4.controller.loanServlet;
 
+import com.group4.model.account.Account;
+import com.group4.model.loan.Interest;
 import com.group4.model.loan.Loan;
+import com.group4.model.loan.Loan_Status;
+import com.group4.service.accountService.AccountService;
+import com.group4.service.accountService.IAccountService;
 import com.group4.service.loan.IInterestService;
 import com.group4.service.loan.ILoanService;
 import com.group4.service.loan.InterestService;
@@ -13,7 +18,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
+
 import java.util.List;
 
 @WebServlet(name = "LoanServlet", value = "/loans")
@@ -22,6 +30,8 @@ public class LoanServlet extends HttpServlet {
 
     private ILoanService loanService = new ServiceLoan();
     private IInterestService iInterestService = new InterestService();
+    private IAccountService accountService = new AccountService();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
@@ -36,13 +46,13 @@ public class LoanServlet extends HttpServlet {
                 showDeleteForm(req, resp);
                 break;
             case "edit":
-                showEditForm(req,resp);
+                showEditForm(req, resp);
                 break;
             case "search":
 
                 break;
             default:
-                showListLoan(req,resp);
+                showListLoan(req, resp);
                 break;
         }
     }
@@ -108,6 +118,11 @@ public class LoanServlet extends HttpServlet {
     }
 
     private void showNewForm(HttpServletRequest req, HttpServletResponse resp) {
+        try {
+            req.setAttribute("interestList", iInterestService.findAll());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         RequestDispatcher dispatcher = req.getRequestDispatcher("view/loan/create.jsp");
         try {
             dispatcher.forward(req, resp);
@@ -119,9 +134,131 @@ public class LoanServlet extends HttpServlet {
     }
 
 
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        String action = req.getParameter("action");
+        if (action == null) {
+            action = "";
+        }
+        switch (action) {
+                case "create":
+                    creatNewLoan(req, resp);
+                    break;
+                case "delete":
+                    deleteLoan(req, resp);
+                    break;
+                case "edit":
+                    editLoan(req, resp);
+                    break;
+                case "search":
+                default:
+                    showListLoan(req, resp);
+                    break;
+            }
+        }
+
+    private void deleteLoan(HttpServletRequest req, HttpServletResponse resp) {
+        int idLoan = Integer.parseInt(req.getParameter("id"));
+        try {
+            Loan loanDelete = loanService.findById(idLoan);
+            if (loanDelete == null) {
+                RequestDispatcher dispatcher = req.getRequestDispatcher("view/loan/error.jsp");
+                try {
+                    dispatcher.forward(req, resp);
+                } catch (ServletException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                loanService.deleteById(loanDelete.getId());
+                try {
+                    resp.sendRedirect("/loans");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+
+    }
+
+    private void editLoan (HttpServletRequest req, HttpServletResponse resp) {
+        int id = Integer.parseInt(req.getParameter("id"));
+        try {
+            Loan loan = loanService.findById(id);
+            if (loan == null) {
+                RequestDispatcher dispatcher = req.getRequestDispatcher("view/book/error.jsp");
+                try {
+                    dispatcher.forward(req, resp);
+                } catch (ServletException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                String name = req.getParameter("name");
+                Date startOfLoan = Date.valueOf(req.getParameter("startOfLoan"));
+                Date endOfLoan = Date.valueOf(req.getParameter("EndOfLoan"));
+                double amount = Double.parseDouble(req.getParameter("amount"));
+                int idCategory = Integer.parseInt(req.getParameter("idCategory"));
+                Loan categoryBook = loanService.findById(idCategory);
+                Account account = new Account();
+                Interest interest = new Interest();
+                Loan_Status loan_status = new Loan_Status();
+                Loan loanUpdate = new Loan(id, startOfLoan, endOfLoan, amount, account, interest, loan_status);
+
+                loanService.update(loanUpdate);
+
+                try {
+                    resp.sendRedirect("/loans");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void creatNewLoan(HttpServletRequest req, HttpServletResponse response) {
+        double amount = Double.parseDouble(req.getParameter("amount"));
+        Date startOfLoan = Date.valueOf(req.getParameter("startOfLoan"));
+        int idInterest = Integer.parseInt(req.getParameter("idInterest"));
+        int id_account = Integer.parseInt(req.getParameter("id_account"));
+
+        Account account = accountService.findById(id_account);
+        try {
+            Interest interest = iInterestService.findById(idInterest);
+            Loan_Status loan_status = new Loan_Status(2, "chưa trả");
+            if (idInterest == 1) {
+                LocalDate localDate = startOfLoan.toLocalDate();
+                LocalDate endOfLoan = localDate.plusMonths(1);
+                Date endOfLoan1 = Date.valueOf(endOfLoan);
+                Loan loan = new Loan(startOfLoan, endOfLoan1, amount, account, interest,loan_status);
+                loanService.save(loan);
+            } else {
+                LocalDate localDate = startOfLoan.toLocalDate();
+                LocalDate endOfLoan = localDate.plusMonths(3);
+                Date endOfLoan1 = Date.valueOf(endOfLoan);
+                Loan loan = new Loan(startOfLoan, endOfLoan1, amount, account, interest,loan_status);
+                loanService.save(loan);
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        try {
+            response.sendRedirect("/loans");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

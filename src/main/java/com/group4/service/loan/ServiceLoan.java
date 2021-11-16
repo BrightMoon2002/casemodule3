@@ -74,6 +74,7 @@ public class ServiceLoan implements ILoanService{
             preparedStatement.setInt(4, loan.getInterest().getId());
             preparedStatement.setDouble(5, loan.getAmount());
             preparedStatement.setInt(6, loan.getStatus().getId());
+            preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

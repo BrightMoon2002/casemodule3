@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>create</title>
@@ -18,35 +19,23 @@
         <legend>Loan</legend>
         <table>
             <tr>
-                <td>Name: </td>
+                <td>Amount: </td>
                 <td>
-                    <input type="text" name="name">
+                    <input type="text" name="amount">
                 </td>
             </tr>
             <tr>
-                <td>Description: </td>
+                <td>Start of Loan: </td>
                 <td>
-                    <input type="text" name="description">
+                    <input type="date" name="startOfLoan">
                 </td>
             </tr>
             <tr>
-                <td>Producer: </td>
+                <td>type: </td>
                 <td>
-                    <input type="text" name="producer">
-                </td>
-            </tr>
-            <tr>
-                <td>Price: </td>
-                <td>
-                    <input type="text" name="price">
-                </td>
-            </tr>
-            <tr>
-                <td>Type: </td>
-                <td>
-                    <select name="idCategory">
-                        <c:forEach items="${categoryList}" var="cate">
-                            <option value="${cate.getId()}">${cate.getName()}</option>
+                    <select name="idInterest">
+                        <c:forEach items="${interestList}" var="i">
+                            <option value="${i.getId()}">${i.getName()}</option>
                         </c:forEach>
                     </select>
                 </td>
