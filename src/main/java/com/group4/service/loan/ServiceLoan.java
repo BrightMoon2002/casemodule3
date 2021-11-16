@@ -6,16 +6,13 @@ import com.group4.model.loan.Interest;
 import com.group4.model.loan.Loan;
 import com.group4.model.loan.Loan_Status;
 import config.SingletonConnection;
-import sun.dc.pr.PRError;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 public class ServiceLoan implements ILoanService{
@@ -25,6 +22,9 @@ public class ServiceLoan implements ILoanService{
     public static final String UPDATE_LOAN = "UPDATE loan set account_id = ?, startOfLoan = ?, endOfLoan = ?, interest_id = ?, amount = ?, status_id = ? WHERE id = ?";
     public static final String DELETE_LOAN_BY_ID = "DELETE FROM loan where id = ?";
     private static Connection connection = SingletonConnection.getConnection();
+
+
+
     @Override
     public List<Loan> findAll() {
         List<Loan> loanList = new ArrayList<>();
@@ -80,9 +80,8 @@ public class ServiceLoan implements ILoanService{
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_LOAN);
             preparedStatement.setInt(1, loan.getAccount().getId());
-            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-            preparedStatement.setString(2, dateFormat.format(loan.getStartOfLoan()));
-            preparedStatement.setString(3, dateFormat.format(loan.getEndOfLoan()));
+            preparedStatement.setDate(2, loan.getStartOfLoan());
+            preparedStatement.setDate(3, loan.getEndOfLoan());
             preparedStatement.setInt(4, loan.getInterest().getId());
             preparedStatement.setDouble(5, loan.getAmount());
             preparedStatement.setInt(6, loan.getStatus().getId());
@@ -139,9 +138,8 @@ public class ServiceLoan implements ILoanService{
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_LOAN);
             preparedStatement.setInt(1, loan.getAccount().getId());
-            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-            preparedStatement.setString(2, dateFormat.format(loan.getStartOfLoan()));
-            preparedStatement.setString(3, dateFormat.format(loan.getEndOfLoan()));
+            preparedStatement.setDate(2, loan.getStartOfLoan());
+            preparedStatement.setDate(3, loan.getEndOfLoan());
             preparedStatement.setInt(4, loan.getInterest().getId());
             preparedStatement.setDouble(5, loan.getAmount());
             preparedStatement.setInt(6, loan.getStatus().getId());

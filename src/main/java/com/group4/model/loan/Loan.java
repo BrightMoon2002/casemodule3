@@ -2,8 +2,9 @@ package com.group4.model.loan;
 
 import com.group4.model.account.Account;
 
-import java.time.LocalDate;
-import java.util.Date;
+
+
+import java.sql.Date;
 
 public class Loan {
     private int id;
