@@ -42,8 +42,11 @@ public class SpendingServlet extends HttpServlet {
             }
             break;
         case "edit":
+            ShowEditSpending(request,response);
+            break;
+        case "delete":
             try {
-                editSpending(request,response);
+                showDeleteSpending(request,response);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -56,6 +59,16 @@ public class SpendingServlet extends HttpServlet {
             }
             break;
     }
+    }
+
+    private void ShowEditSpending(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/spending/edit.jsp");
+        requestDispatcher.forward(request,response);
+    }
+
+    private void showDeleteSpending(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/spending/delete.jsp");
+        requestDispatcher.forward(request,response);
     }
 
     private void showSearch(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
@@ -96,7 +109,27 @@ public class SpendingServlet extends HttpServlet {
             case "create":
                 createNewSpending(request,response);
                 break;
+            case "edit":
+                try {
+                    editSpending(request,response);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "delete":
+                try {
+                    deleteSpending(request,response);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
         }
+    }
+
+    private void deleteSpending(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        spendingDAO.deleteById(id);
+        response.sendRedirect("/spending");
     }
 
     private void editSpending(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
