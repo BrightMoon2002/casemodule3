@@ -33,16 +33,40 @@ public class LoanServlet extends HttpServlet {
                 showNewForm(req, resp);
                 break;
             case "delete":
+                showDeleteForm(req, resp);
                 break;
             case "edit":
                 showEditForm(req,resp);
                 break;
             case "search":
+
                 break;
             default:
                 showListLoan(req,resp);
                 break;
         }
+    }
+
+    private void showDeleteForm(HttpServletRequest req, HttpServletResponse resp) {
+        int id = Integer.parseInt(req.getParameter("id"));
+        try {
+            Loan loanDelete = loanService.findById(id);
+            req.setAttribute("loanDelete", loanDelete);
+            RequestDispatcher dispatcher;
+            if (loanDelete == null) {
+                dispatcher = req.getRequestDispatcher("view/loan/error.jsp");
+            } else {
+                dispatcher = req.getRequestDispatcher("view/loan/delete.jsp");
+            }
+            try {
+                dispatcher.forward(req, resp);
+            } catch (ServletException | IOException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
     }
 
     private void showEditForm(HttpServletRequest req, HttpServletResponse resp) {
@@ -93,6 +117,8 @@ public class LoanServlet extends HttpServlet {
             e.printStackTrace();
         }
     }
+
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

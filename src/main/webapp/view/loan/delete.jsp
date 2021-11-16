@@ -13,17 +13,18 @@
 </head>
 <body>
 <fieldset style="width: 25%;">
-    <lengend>PRODUCT DELETE</lengend>
-    <p>DO YOU WANT TO DELETE THIS PRODUCT</p>
+    <lengend>loan DELETE</lengend>
+    <p>DO YOU WANT TO DELETE THIS loan</p>
     <form method="post">
-        <p>Name: ${bookDelete.getName()}</p>
-        <p>Description: ${bookDelete.getDescription()}</p>
-        <p>Producer: ${bookDelete.getProducer()}</p>
-        <p>Category: ${bookDelete.getCategory().getName()}</p>
-        <p>Price: ${bookDelete.getPrice()}</p>
+        <p>Name: ${loanDelete.getAccount().getName()}</p>
+        <p>Amount: ${loanDelete.getAmount()}</p>
+        <p>startOfLoan: ${loanDelete.getStartOfLoan()}</p>
+        <p>EndOfLoan: ${loanDelete.getEndOfLoan()}</p>
+        <p>Interest: ${loanDelete.getInterest().getName()}</p>
+        <p>status: ${loanDelete.getStatus().getName()}</p>
         <button type="submit">Submit</button>
         <button type="button">
-            <a href="/books">Back</a>
+            <a href="/loans">Back</a>
         </button>
 
     </form>
