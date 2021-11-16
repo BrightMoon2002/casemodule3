@@ -1,8 +1,8 @@
 package com.group4.service.spending;
 
-import com.group4.accountService.AccountService;
 import com.group4.model.account.Account;
 import com.group4.model.financial.Spending;
+import com.group4.service.accountService.AccountService;
 import config.SingletonConnection;
 
 import java.sql.*;
@@ -27,12 +27,14 @@ public class ISpendingDAO implements SpendingDAO {
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_SPENDING);
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
+            int id_spending = resultSet.getInt("id");
             String type = resultSet.getString("type");
             Double amount = resultSet.getDouble("amount");
             String description = resultSet.getString("description");
             Date date = resultSet.getDate("date");
-            int id = resultSet.getInt("account_id");
-            spendings.add(new Spending(type, amount, description, date));
+            int id_account = resultSet.getInt("account_id");
+            account =accountService.findById(id_account);
+            spendings.add(new Spending(id_spending,type,description,amount,date,account));
         }
         return spendings;
     }

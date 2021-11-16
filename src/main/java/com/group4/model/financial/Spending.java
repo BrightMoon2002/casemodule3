@@ -4,7 +4,6 @@ import com.group4.model.account.Account;
 
 import java.sql.Date;
 
-
 public class Spending {
     private int id;
     private String type;
@@ -24,13 +23,13 @@ public class Spending {
         this.account = account;
     }
 
-
-
-    public Spending(String type, Double amount, String description, Date date) {
+    public Spending(int id, String type, String description, double amount, Date date, Account account) {
+        this.id = id;
         this.type = type;
         this.description = description;
         this.amount = amount;
         this.date = date;
+        this.account =account;
     }
 
 
