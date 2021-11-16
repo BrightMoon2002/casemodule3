@@ -23,7 +23,7 @@ public class ISpendingDAO implements SpendingDAO {
     private static final String UPDATE_SPENDING_SQL = "update spending set type = ?,amount= ?, date =?, description=? where id = ?";
     private static final String DELETE_SPENDING_SQL = "delete from spending where id = ?";
     public static final String SELECT_FROM_SPENDING_ORDER_BY_AMOUNT = "select *from spending order by amount";
-    public static final String SELECT_FROM_SPENDING_BY_DATE ="select *from spending where date ='2021-11-15'";
+    public static final String SELECT_FROM_SPENDING_BY_DATE ="select *from spending where date =? order by amount desc";
 
     @Override
     public List<Spending> findAll() throws SQLException {
@@ -128,6 +128,7 @@ public class ISpendingDAO implements SpendingDAO {
     public List<Spending> findByDate(Date date) throws SQLException {
         List<Spending> spendings = new ArrayList<>();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_FROM_SPENDING_BY_DATE);
+        preparedStatement.setDate(1,date);
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()){
             int id_spending = resultSet.getInt("id");
