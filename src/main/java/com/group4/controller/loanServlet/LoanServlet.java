@@ -17,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -52,7 +53,7 @@ public class LoanServlet extends HttpServlet {
 
                 break;
             default:
-                showListLoan(req, resp);
+                showListLoanById(req, resp);
                 break;
         }
     }
@@ -106,6 +107,33 @@ public class LoanServlet extends HttpServlet {
             throwables.printStackTrace();
         }
 
+        RequestDispatcher dispatcher;
+        dispatcher = req.getRequestDispatcher("/view/loan/list.jsp");
+        try {
+            dispatcher.forward(req, resp);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showListLoanById(HttpServletRequest req, HttpServletResponse resp) {
+        List<Loan> loanList;
+        HttpSession session = req.getSession();
+        Account accountLogging = (Account) session.getAttribute("accountLogging");
+        int idRoll = accountLogging.getRole().getId();
+        if (idRoll == 1) {
+            loanList = loanService.findAllById(accountLogging.getId());
+            req.setAttribute("list", loanList);
+        } else {
+            try {
+                loanList = loanService.findAll();
+                req.setAttribute("list", loanList);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
         RequestDispatcher dispatcher;
         dispatcher = req.getRequestDispatcher("/view/loan/list.jsp");
         try {
