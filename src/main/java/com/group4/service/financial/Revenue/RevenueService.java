@@ -19,6 +19,7 @@ public class RevenueService implements IRevenueService {
      private static final String UPDATE_REVENUE= "update revenue set type = ?, amount = ?, date = ?, description = ?, account_id = ? where id = ?;";
      private static final String DELETE_REVENUE_SQL = "delete from revenue where id=?;";
     private static final String SELECT_REVENUES_BY_ACCOUNT_ID = "select * from revenue where account_id = ?;";
+    private static final String SELECT_REVENUES_NOT_BY_ACCOUNT_ID = "select * from revenue where not account_id = ?;";
     IAccountService accountService = new AccountService();
 
 
@@ -160,6 +161,34 @@ public class RevenueService implements IRevenueService {
         return revenues;
     }
 
+    @Override
+    public List<Revenue> findAllNotByAccountId(int account_id) {
+        List<Revenue> revenues = new ArrayList<>();
+        System.out.println(SELECT_REVENUES_NOT_BY_ACCOUNT_ID);
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_REVENUES_NOT_BY_ACCOUNT_ID);
+            preparedStatement.setInt(1, account_id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int id =  resultSet.getInt("id");
+                String type = resultSet.getString("type");
+                double amount = resultSet.getDouble("amount");
+                Date date = resultSet.getDate("date");
+                String description = resultSet.getString("description");
+                int account_user_id = resultSet.getInt("account_id");
+
+                Account account = accountService.findById(account_user_id);
+
+                revenues.add(new Revenue(id, type, description, amount, date, account));
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return revenues;
+    }
 
 
 }
