@@ -18,6 +18,7 @@ public class RevenueService implements IRevenueService {
      private static final String SELECT_REVENUE_BY_ID = "select * from revenue where id = ?;";
      private static final String UPDATE_REVENUE= "update revenue set type = ?, amount = ?, date = ?, description = ?, account_id = ? where id = ?;";
      private static final String DELETE_REVENUE_SQL = "delete from revenue where id=?;";
+    private static final String SELECT_REVENUES_BY_ACCOUNT_ID = "select * from revenue where account_id = ?;";
      IAccountService accountService = new AccountService();
 
 
