@@ -14,8 +14,8 @@
 <body>
 <h1>${accountLogging.username}</h1>
 <h1>${accountLogging.username}</h1>
-<a href="/revenue">aaaaa</a>
-<a href="/spending">bbbbbbbb</a>
+<a href="/revenue?id=${accountLogging.id}">aaaaa</a>
+<a href="/spending?id=${accountLogging.id}">bbbbbbbb</a>
 <a href="/loans">loannnnnnnnnnn</a>
 <h1><a href="/spending?id=${accountLogging.id}">Spending</a></h1>
 
