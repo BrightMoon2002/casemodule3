@@ -21,6 +21,7 @@
         <h3>Show Spending By Date</h3>
         <form action="" method="get">
             <input type="hidden" name="action" value="search">
+            <input type="hidden" name="id" value="${account.id}">
             <input type="text" name="date" placeholder="date time">
             <input type="submit" value="Search">
         </form>

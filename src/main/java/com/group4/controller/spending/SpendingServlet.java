@@ -76,7 +76,9 @@ public class SpendingServlet extends HttpServlet {
 
     private void showSearch(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         Date date = Date.valueOf(request.getParameter("date"));
-        List<Spending> spendingList = spendingDAO.findByDate(date);
+        int account_id = Integer.parseInt(request.getParameter("id"));
+//        List<Spending> spendingList = spendingDAO.findByDate(date);
+        List<Spending> spendingList = spendingDAO.findByDateOfAccountId(date,account_id);
         request.setAttribute("spendings",spendingList);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/spending/findByDate.jsp");
         requestDispatcher.forward(request,response);

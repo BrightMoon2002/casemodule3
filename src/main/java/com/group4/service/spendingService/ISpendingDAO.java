@@ -22,6 +22,7 @@ public class ISpendingDAO implements SpendingDAO {
     public static final String SELECT_FROM_SPENDING_ORDER_BY_AMOUNT = "select *from spending order by amount";
     public static final String SELECT_FROM_SPENDING_ORDER_BY_AMOUNT_OF_ACCOUNT_ID = "select *from spending where account_id=? order by amount desc ";
     public static final String SELECT_FROM_SPENDING_BY_DATE ="select *from spending where date =? order by amount desc";
+    public static final String SELECT_FROM_SPENDING_BY_DATE_OF_ACCOUNT_ID ="select *from spending where date =? and account_id=? order by amount desc";
     public static final String SELECT_ALL_SPENDING_BY_ACCOUNT_ID = "select * from spending where account_id =?";
 
     @Override
@@ -128,6 +129,25 @@ public class ISpendingDAO implements SpendingDAO {
         List<Spending> spendings = new ArrayList<>();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_FROM_SPENDING_BY_DATE);
         preparedStatement.setDate(1,date);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()){
+            int id_spending = resultSet.getInt("id");
+            String type = resultSet.getString("type");
+            Double amount = resultSet.getDouble("amount");
+            String description = resultSet.getString("description");
+            int id_account = resultSet.getInt("account_id");
+            account = accountService.findById(id_account);
+            spendings.add(new Spending(id_spending, type, description, amount, date, account));
+        }
+        return spendings;
+    }
+
+    @Override
+    public List<Spending> findByDateOfAccountId(Date date, int account_id) throws SQLException {
+        List<Spending> spendings = new ArrayList<>();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_FROM_SPENDING_BY_DATE_OF_ACCOUNT_ID);
+        preparedStatement.setDate(1,date);
+        preparedStatement.setInt(2,account_id);
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()){
             int id_spending = resultSet.getInt("id");

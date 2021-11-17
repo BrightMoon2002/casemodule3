@@ -13,5 +13,6 @@
 </head>
 <body>
 <h1>${account.username}</h1>
+<h1><a href="/spending?id=${account.id}">Spending</a></h1>
 </body>
 </html>
