@@ -36,6 +36,10 @@
                 <td><input type="text" name="amount" id="amount" size="45"></td>
             </tr>
             <tr>
+                <th>Date:</th>
+                <td><input type="text" name="date"></td>
+            </tr>
+            <tr>
                 <td colspan="2" align="center">
                     <input type="submit" value="Save">
                 </td>
