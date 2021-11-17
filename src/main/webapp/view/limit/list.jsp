@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -34,7 +35,7 @@
             <c:forEach var="limit" items="${listLimit}">
                 <tr>
                     <td><c:out value="${limit.id}"/></td>
-                    <td><c:out value="${limit.amount}"/></td>
+                    <td><fmt:formatNumber value = "${limit.amount}" type = "currency"/></td>
                     <td><c:out value="${limit.getAccount().getId()}"/></td>
                     <td>
                         <a href="/limit?action=edit&id=${limit.id}">Edit</a>
