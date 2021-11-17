@@ -17,6 +17,9 @@
     <h2>
         <a href="/spending?action=create">Add New Spending</a>
     </h2>
+    <h2>
+        <a href="/spending">Back to Home</a>
+    </h2>
     <h2><a href="/spending?action=sort">Soft By Amount Spending</a></h2>
     <table border="1">
         <caption><h2>List of Spending by Amount </h2></caption>
@@ -37,10 +40,10 @@
                 <td><c:out value="${spending.amount}"/></td>
                 <td><c:out value="${spending.date}"/></td>
                 <td>
-                    <a href="/users?action=edit&id=${spending.id}">Edit</a>
+                    <a href="/spending?action=edit&id=${spending.id}">Edit</a>
                 </td>
                 <td>
-                    <a href="/users?action=delete&id=${spending.id}">Delete</a>
+                    <a href="/spending?action=delete&id=${spending.id}">Delete</a>
                 </td>
             </tr>
         </c:forEach>

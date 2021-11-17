@@ -12,10 +12,7 @@ import java.util.List;
 public class ISpendingDAO implements SpendingDAO {
     private AccountService accountService = new AccountService();
     private Spending spending = new Spending();
-
     private static Connection connection= SingletonConnection.getConnection();
-
-
     private Account account = new Account();
     private static final String INSERT_SPENDING_SQL = "INSERT INTO spending (type,amount,date,description,account_id) VALUES (?, ?, ?,?)";
     private static final String SELECT_ALL_SPENDING = "select * from spending";
@@ -23,7 +20,9 @@ public class ISpendingDAO implements SpendingDAO {
     private static final String UPDATE_SPENDING_SQL = "update spending set type = ?,amount= ?, date =?, description=? where id = ?";
     private static final String DELETE_SPENDING_SQL = "delete from spending where id = ?";
     public static final String SELECT_FROM_SPENDING_ORDER_BY_AMOUNT = "select *from spending order by amount";
+    public static final String SELECT_FROM_SPENDING_ORDER_BY_AMOUNT_OF_ACCOUNT_ID = "select *from spending where account_id=? order by amount desc ";
     public static final String SELECT_FROM_SPENDING_BY_DATE ="select *from spending where date =? order by amount desc";
+    public static final String SELECT_ALL_SPENDING_BY_ACCOUNT_ID = "select * from spending where account_id =?";
 
     @Override
     public List<Spending> findAll() throws SQLException {
@@ -135,6 +134,43 @@ public class ISpendingDAO implements SpendingDAO {
             String type = resultSet.getString("type");
             Double amount = resultSet.getDouble("amount");
             String description = resultSet.getString("description");
+            int id_account = resultSet.getInt("account_id");
+            account = accountService.findById(id_account);
+            spendings.add(new Spending(id_spending, type, description, amount, date, account));
+        }
+        return spendings;
+    }
+
+    @Override
+    public List<Spending> findAllSpendingByAccountId(int account_id) throws SQLException {
+       List<Spending> spendingList = new ArrayList<>();
+       PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_SPENDING_BY_ACCOUNT_ID);
+       preparedStatement.setInt(1,account_id);
+       ResultSet resultSet = preparedStatement.executeQuery();
+       while (resultSet.next()){
+           int id = resultSet.getInt("id");
+           String type= resultSet.getString("type");
+           Double amount = resultSet.getDouble("amount");
+           Date date = resultSet.getDate("date");
+           String description = resultSet.getString("description");
+           Account account = accountService.findById(account_id);
+           spendingList.add(new Spending(id,type,description,amount,date,account));
+       }
+       return spendingList;
+    }
+
+    @Override
+    public List<Spending> sortByAmountOfAccountId(int account_id) throws SQLException {
+        List<Spending> spendings = new ArrayList<>();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_FROM_SPENDING_ORDER_BY_AMOUNT_OF_ACCOUNT_ID);
+        preparedStatement.setInt(1,account_id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            int id_spending = resultSet.getInt("id");
+            String type = resultSet.getString("type");
+            Double amount = resultSet.getDouble("amount");
+            String description = resultSet.getString("description");
+            Date date = resultSet.getDate("date");
             int id_account = resultSet.getInt("account_id");
             account = accountService.findById(id_account);
             spendings.add(new Spending(id_spending, type, description, amount, date, account));

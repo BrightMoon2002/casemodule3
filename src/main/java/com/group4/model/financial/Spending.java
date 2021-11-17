@@ -15,6 +15,13 @@ public class Spending {
     public Spending() {
     }
 
+    public Spending(String type, String description, double amount, Date date) {
+        this.type = type;
+        this.description = description;
+        this.amount = amount;
+        this.date = date;
+    }
+
     public Spending(String type, String description, double amount, Date date, Account account) {
         this.type = type;
         this.description = description;
@@ -31,6 +38,7 @@ public class Spending {
         this.date = date;
         this.account =account;
     }
+
 
 
     public int getId() {

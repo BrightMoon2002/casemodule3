@@ -83,7 +83,9 @@ public class SpendingServlet extends HttpServlet {
     }
 
     private void showSortByAmount(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
-        List<Spending> spendingList = spendingDAO.sortByAmount();
+//        List<Spending> spendingList = spendingDAO.sortByAmount();
+
+        List<Spending> spendingList = spendingDAO.sortByAmountOfAccountId(3);
         request.setAttribute("spendings",spendingList);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/spending/sort.jsp");
         requestDispatcher.forward(request,response);
@@ -95,11 +97,16 @@ public class SpendingServlet extends HttpServlet {
     }
 
     private void listSpending(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
-        List<Spending> spendingList = spendingDAO.findAll();
+//        List<Spending> spendingList = spendingDAO.findAll();
+//        request.setAttribute("spendings",spendingList);
+//        RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/spending/list.jsp");
+//        requestDispatcher.forward(request,response);
+
+        int id_account = Integer.parseInt(request.getParameter("id"));
+        List<Spending> spendingList = spendingDAO.findAllSpendingByAccountId(id_account);
         request.setAttribute("spendings",spendingList);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/spending/list.jsp");
         requestDispatcher.forward(request,response);
-
     }
 
     @Override
