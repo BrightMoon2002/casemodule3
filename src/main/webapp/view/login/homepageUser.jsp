@@ -13,5 +13,8 @@
 </head>
 <body>
 <h1>${account.username}</h1>
+<a href="/revenue">aaaaa</a>
+<a href="/spending">bbbbbbbb</a>
+<a href="/loans">loannnnnnnnnnn</a>
 </body>
 </html>
