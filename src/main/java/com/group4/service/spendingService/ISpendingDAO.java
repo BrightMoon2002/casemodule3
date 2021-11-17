@@ -5,6 +5,7 @@ import com.group4.model.financial.Spending;
 import com.group4.service.accountService.AccountService;
 import config.SingletonConnection;
 
+import javax.servlet.http.HttpSession;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -197,5 +198,6 @@ public class ISpendingDAO implements SpendingDAO {
         }
         return spendings;
     }
+
 
 }

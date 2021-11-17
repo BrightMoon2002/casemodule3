@@ -1,5 +1,6 @@
 package com.group4.service.spendingService;
 
+import com.group4.model.account.Account;
 import com.group4.model.financial.Spending;
 import com.group4.service.IService;
 

@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <title>Edit</title>
@@ -24,6 +25,7 @@
             <tr><td>Start of Loan:  </td>
                 <td>
                     <input type="date" name="startOfLoan" value="${loanEdit.getStartOfLoan()}">
+                    <fmt:formatNumber value = "${loanDelete.getAmount()}"/>
                 </td>
             </tr>
             <tr> <td>End of Loan: </td>
@@ -33,7 +35,7 @@
             </tr>
             <tr> <td>Amount:  </td>
                 <td>
-                    <input type="number" name="amount" value="${loanEdit.getAmount()}">
+                    <input name="amount" value="${loanEdit.getAmount()}" type = "currency">
                 </td>
             </tr>
             </tr>
