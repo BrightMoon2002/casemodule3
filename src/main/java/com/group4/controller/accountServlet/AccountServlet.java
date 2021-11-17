@@ -135,11 +135,11 @@ public class AccountServlet extends HttpServlet {
         if (account != null) {
             HttpSession session = request.getSession();
             if (account.getRole().getName().equalsIgnoreCase("user")) {
-                session.setAttribute("account", account);
+                session.setAttribute("accountLogging", account);
                 response.sendRedirect("/login?action=showUserPage");
             } else {
                 session.setAttribute("accountList", accountList);
-                session.setAttribute("account", account);
+                session.setAttribute("accountLogging", account);
                 response.sendRedirect("/login?action=showAdminPage");
             }
         } else {

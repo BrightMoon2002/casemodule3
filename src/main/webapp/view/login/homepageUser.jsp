@@ -12,6 +12,6 @@
     <title>Title</title>
 </head>
 <body>
-<h1>${account.username}</h1>
+<h1>${accountLogging.username}</h1>
 </body>
 </html>
