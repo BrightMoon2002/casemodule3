@@ -45,10 +45,26 @@ public class AccountServlet extends HttpServlet {
                 break;
             case "showAdminPage":
                 showAdminPage(request, response);
+                break;
+            case "logoutAccount":
+                logoutAccount(request,response);
+                break;
             default:
                 showLogin(request, response);
                 break;
         }
+    }
+
+    //logout account
+    private void logoutAccount(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession();
+        session.invalidate();
+        try {
+            response.sendRedirect("/login");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void showEditAccountUser(HttpServletRequest request, HttpServletResponse response) {
@@ -227,8 +243,6 @@ public class AccountServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }
-
-
     }
 
 }
