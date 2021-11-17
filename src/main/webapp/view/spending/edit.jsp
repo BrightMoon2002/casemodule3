@@ -28,14 +28,17 @@
                 <td><input type="text" name="description"  placeholder="<c:out value="${spending.description}"/>"></td>
             </tr>
             <tr>
-                <th>Description:</th>
-                <td><input type="text" name="description"  placeholder="<c:out value="${spending.amount}"/>"></td>
+                <th>Amount:</th>
+                <td><input type="text" name="amount"  placeholder="<c:out value="${spending.amount}"/>"></td>
             </tr>
             <tr>
-                <th>Description:</th>
-                <td><input type="text" name="description"  placeholder="<c:out value="${spending.date}"/>"></td>
+                <th>Date:</th>
+                <td><input type="text" name="date"  placeholder="<c:out value="${spending.date}"/>"></td>
             </tr>
             <tr>
+                <td>
+                    <input type="hidden" name="id" value="<c:out value='${spending.id}' />"/>
+                </td>
                 <td colspan="2" align="center">
                     <input type="submit" value="Save">
                 </td>
