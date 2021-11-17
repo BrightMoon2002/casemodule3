@@ -26,7 +26,7 @@
             <input type="submit" value="Search">
         </form>
     </h2>
-    <h2><a href="/spending?action=sort">Soft By Amount Spending</a></h2>
+    <h2><a href="/spending?action=sort&id=${account.id}">Soft By Amount Spending</a></h2>
     <table border="1">
         <caption><h2>List of Spending</h2></caption>
         <tr>

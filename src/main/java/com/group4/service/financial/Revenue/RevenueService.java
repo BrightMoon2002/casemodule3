@@ -8,7 +8,6 @@ import com.group4.service.accountService.IAccountService;
 import config.SingletonConnection;
 
 import java.sql.*;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +19,7 @@ public class RevenueService implements IRevenueService {
      private static final String UPDATE_REVENUE= "update revenue set type = ?, amount = ?, date = ?, description = ?, account_id = ? where id = ?;";
      private static final String DELETE_REVENUE_SQL = "delete from revenue where id=?;";
     private static final String SELECT_REVENUES_BY_ACCOUNT_ID = "select * from revenue where account_id = ?;";
-     IAccountService accountService = new AccountService();
+    IAccountService accountService = new AccountService();
 
 
     @Override

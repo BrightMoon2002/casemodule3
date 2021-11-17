@@ -17,9 +17,9 @@
     <h2>
         <a href="/spending?action=create">Add New Spending</a>
     </h2>
-    <h2>
-        <a href="/spending">Back to Home</a>
-    </h2>
+    <h1>
+        <a href="/spending?id=${account.id}">Back to Home</a>
+    </h1>
     <h2><a href="/spending?action=sort">Soft By Amount Spending</a></h2>
     <table border="1">
         <caption><h2>List of Spending by Amount </h2></caption>
@@ -49,6 +49,5 @@
         </c:forEach>
     </table>
 </div>
-
 </body>
 </html>
