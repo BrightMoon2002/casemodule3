@@ -18,7 +18,7 @@ public class ISpendingDAO implements SpendingDAO {
     private static final String INSERT_SPENDING_SQL = "INSERT INTO spending (type,amount,date,description,account_id) VALUES (?, ?, ?,?)";
     private static final String SELECT_ALL_SPENDING = "select * from spending";
     private static final String SELECT_SPENDING_BY_ID = "select id,type,amount,date,description,account_id from spending where id =?";
-    private static final String UPDATE_SPENDING_SQL = "update spending set type = ?,amount= ?, date =?, description=? where id = ?";
+    private static final String UPDATE_SPENDING_SQL = "update spending set type = ?,amount= ?, date =?, description=?, account_id=? where id = ?";
     private static final String DELETE_SPENDING_SQL = "delete from spending where id = ?";
     public static final String SELECT_FROM_SPENDING_ORDER_BY_AMOUNT = "select *from spending order by amount";
     public static final String SELECT_FROM_SPENDING_ORDER_BY_AMOUNT_OF_ACCOUNT_ID = "select *from spending where account_id=? order by amount desc ";
@@ -53,7 +53,7 @@ public class ISpendingDAO implements SpendingDAO {
             preparedStatement.setDouble(2, spending.getAmount());
             preparedStatement.setDate(3, spending.getDate());
             preparedStatement.setString(4, spending.getDescription());
-            preparedStatement.setInt(5, spending.getId());
+            preparedStatement.setInt(5, spending.getAccount().getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             printSQLException(e);
@@ -89,7 +89,8 @@ public class ISpendingDAO implements SpendingDAO {
         preparedStatement.setDouble(2, spending.getAmount());
         preparedStatement.setDate(3, spending.getDate());
         preparedStatement.setString(4, spending.getDescription());
-        preparedStatement.setInt(5, spending.getId());
+        preparedStatement.setInt(5, spending.getAccount().getId());
+        preparedStatement.setInt(6,spending.getId());
         update = preparedStatement.executeUpdate() > 0;
         return update;
     }

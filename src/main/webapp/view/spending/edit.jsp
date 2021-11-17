@@ -36,9 +36,12 @@
                 <td><input type="text" name="date"  placeholder="<c:out value="${spending.date}"/>"></td>
             </tr>
             <tr>
+            <tr>
+                <th>Account ID: </th>
                 <td>
-                    <input type="hidden" name="id" value="<c:out value='${spending.id}' />"/>
+                    <input type="text" name="account_id" id="account_id" size="15"  value="<c:out value='${spending.getAccount().getId()}'/>"/>
                 </td>
+            </tr>
                 <td colspan="2" align="center">
                     <input type="submit" value="Save">
                 </td>

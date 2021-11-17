@@ -190,15 +190,15 @@ public class SpendingServlet extends HttpServlet {
     }
 
     private void editSpending(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-        HttpSession session = request.getSession();
-       Account accountLogging=(Account) session.getAttribute("accountLogging");
         int id = Integer.parseInt(request.getParameter("id"));
         String type = request.getParameter("type");
         double amount = Double.parseDouble(request.getParameter("amount"));
         Date date = Date.valueOf(request.getParameter("date"));
         String description = request.getParameter("description");
-        Spending spending = new Spending(id, type,description, amount, date, accountLogging);
-        spendingDAO.save(spending);
+        int account_id = Integer.parseInt(request.getParameter("account_id"));
+        Account account = accountService.findById(account_id);
+        Spending spending = new Spending(id, type,description, amount, date, account);
+        spendingDAO.update(spending);
         response.sendRedirect("/spending");
     }
 
