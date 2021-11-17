@@ -188,9 +188,9 @@ public class LoanServlet extends HttpServlet {
     }
 
     private void editLoan (HttpServletRequest req, HttpServletResponse resp) {
-        int id = Integer.parseInt(req.getParameter("id"));
+        int id_account = Integer.parseInt(req.getParameter("id"));
         try {
-            Loan loan = loanService.findById(id);
+            Loan loan = loanService.findById(id_account);
             if (loan == null) {
                 RequestDispatcher dispatcher = req.getRequestDispatcher("view/book/error.jsp");
                 try {
@@ -203,16 +203,44 @@ public class LoanServlet extends HttpServlet {
             } else {
                 String name = req.getParameter("name");
                 Date startOfLoan = Date.valueOf(req.getParameter("startOfLoan"));
-                Date endOfLoan = Date.valueOf(req.getParameter("EndOfLoan"));
+                Date endOfLoan = Date.valueOf(req.getParameter("endOfLoan"));
                 double amount = Double.parseDouble(req.getParameter("amount"));
-                int idCategory = Integer.parseInt(req.getParameter("idCategory"));
-                Loan categoryBook = loanService.findById(idCategory);
-                Account account = new Account();
-                Interest interest = new Interest();
-                Loan_Status loan_status = new Loan_Status();
-                Loan loanUpdate = new Loan(id, startOfLoan, endOfLoan, amount, account, interest, loan_status);
+                int idInterest = Integer.parseInt(req.getParameter("idInterest"));
+                String status = req.getParameter("status");
+                Account account = accountService.findById(id_account);
+                Interest interest = iInterestService.findById(idInterest);
+                    int id_status;
 
-                loanService.update(loanUpdate);
+                if (status.equals("dont paid")) {
+                    id_status = 2;
+                    Loan_Status loan_status = new Loan_Status(id_status, status);
+
+                    Loan loanUpdate = new Loan(id_account, startOfLoan, endOfLoan, amount, account, interest, loan_status);
+
+                    loanService.update(loanUpdate);
+                } else  if (status.equals("paid")) {
+                    id_status = 1;
+                    Loan_Status loan_status = new Loan_Status(id_status, status);
+
+                    Loan loanUpdate = new Loan(id_account, startOfLoan, endOfLoan, amount, account, interest, loan_status);
+
+                    loanService.update(loanUpdate);
+                } else if (status.equals("pending")) {
+                    id_status = 4;
+                    Loan_Status loan_status = new Loan_Status(id_status, status);
+
+                    Loan loanUpdate = new Loan(id_account, startOfLoan, endOfLoan, amount, account, interest, loan_status);
+
+                    loanService.update(loanUpdate);
+                } else {
+                    id_status = 3;
+                    Loan_Status loan_status = new Loan_Status(id_status, status);
+
+                    Loan loanUpdate = new Loan(id_account, startOfLoan, endOfLoan, amount, account, interest, loan_status);
+
+                    loanService.update(loanUpdate);
+                }
+
 
                 try {
                     resp.sendRedirect("/loans");
