@@ -6,6 +6,7 @@ import com.group4.model.account.Role;
 import com.group4.service.accountService.AccountService;
 import com.group4.service.roleService.IRoleService;
 import com.group4.service.roleService.RoleService;
+import org.w3c.dom.html.HTMLParagraphElement;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -33,14 +34,11 @@ public class AccountServlet extends HttpServlet {
             case "create":
                 showCreateAccount(request, response);
                 break;
-            case "edit":
-//                    showEditForm(request, response);
+            case "editAccountUser":
+                showEditAccountUser(request, response);
                 break;
             case "delete":
 //                    deleteUser(request, response);
-                break;
-            case "checkLogin":
-//                checkLogin(request,response);
                 break;
             case "showUserPage":
                 showUserPage(request, response);
@@ -50,6 +48,18 @@ public class AccountServlet extends HttpServlet {
             default:
                 showLogin(request, response);
                 break;
+        }
+    }
+
+    private void showEditAccountUser(HttpServletRequest request, HttpServletResponse response) {
+        int id_account = Integer.parseInt(request.getParameter("id"));
+        Account account = accountService.findById(id_account);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/login/editAccountUser.jsp");
+        request.setAttribute("accountLogging", account);
+        try {
+            requestDispatcher.forward(request, response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -117,8 +127,8 @@ public class AccountServlet extends HttpServlet {
             case "create":
                 CreateAccount(request, response);
                 break;
-            case "edit":
-//                    updateUser(request, response);
+            case "editAccountUser":
+                EditAccountUser(request, response);
                 break;
             case "checkLogin":
                 checkLogin(request, response);
@@ -126,6 +136,31 @@ public class AccountServlet extends HttpServlet {
 
         }
 
+    }
+
+    private void EditAccountUser(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        HttpSession session = request.getSession(false);
+        Account account = (Account) session.getAttribute("accountLogging");
+        String username = account.getUsername();
+        String password = request.getParameter("password");
+        String name = request.getParameter("name");
+        String dob = request.getParameter("dob");
+        String email = request.getParameter("email");
+        String address = request.getParameter("address");
+        boolean status = Boolean.parseBoolean(request.getParameter("status"));
+        Role role = roleService.findById(1);
+        Account account1 = new Account(id,username,password,name,dob,email,address,status,role);
+        request.setAttribute("accountLogging",account1);
+        accountService.update(account1);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/login/editAccountUser.jsp");
+        session.setAttribute("accountLogging",account1);
+        request.setAttribute("message","Successfully edited!");
+        try {
+            requestDispatcher.forward(request,response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void checkLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {

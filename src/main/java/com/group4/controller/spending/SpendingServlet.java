@@ -86,8 +86,8 @@ public class SpendingServlet extends HttpServlet {
 
     private void showSortByAmount(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
 //        List<Spending> spendingList = spendingDAO.sortByAmount();
-
-        List<Spending> spendingList = spendingDAO.sortByAmountOfAccountId(3);
+        int account_id = Integer.parseInt(request.getParameter("id"));
+        List<Spending> spendingList = spendingDAO.sortByAmountOfAccountId(account_id);
         request.setAttribute("spendings",spendingList);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/spending/sort.jsp");
         requestDispatcher.forward(request,response);
@@ -99,16 +99,23 @@ public class SpendingServlet extends HttpServlet {
     }
 
     private void listSpending(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
-//        List<Spending> spendingList = spendingDAO.findAll();
-//        request.setAttribute("spendings",spendingList);
-//        RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/spending/list.jsp");
-//        requestDispatcher.forward(request,response);
-
-        int id_account = Integer.parseInt(request.getParameter("id"));
-        List<Spending> spendingList = spendingDAO.findAllSpendingByAccountId(id_account);
+        HttpSession session = request.getSession(false);
+        Account account = null;
+        if (session!=null){
+            account = (Account) session.getAttribute("account");
+        }
+        int id_account = account.getId();
+        if (account.getRole().getId()==1){
+            List<Spending> spendingList = spendingDAO.findAll();
         request.setAttribute("spendings",spendingList);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/spending/list.jsp");
         requestDispatcher.forward(request,response);
+        }else {
+            List<Spending> spendingList = spendingDAO.findAllSpendingByAccountId(id_account);
+            request.setAttribute("spendings", spendingList);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/spending/list.jsp");
+            requestDispatcher.forward(request, response);
+        }
     }
 
     @Override
@@ -156,6 +163,15 @@ public class SpendingServlet extends HttpServlet {
         response.sendRedirect("/spending");
     }
 
-    private void createNewSpending(HttpServletRequest request, HttpServletResponse response) {
+    private void createNewSpending(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String type = request.getParameter("type");
+        String description = request.getParameter("description");
+        Double amount = Double.valueOf(request.getParameter("amount"));
+        Date date = Date.valueOf("date");
+        int account_id =Integer.parseInt(request.getParameter("id"));
+        Account account = accountService.findById(account_id);
+        Spending spending = new Spending(type,description,amount,date,account);
+        spendingDAO.save(spending);
+        response.sendRedirect("/spending");
     }
 }

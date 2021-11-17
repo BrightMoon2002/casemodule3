@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -42,7 +43,7 @@
             <tr>
                 <td><c:out value="${revenue.id}"/></td>
                 <td><c:out value="${revenue.type}"/></td>
-                <td><c:out value="${revenue.amount}"/></td>
+                <td><fmt:formatNumber value = "${revenue.amount}" type = "currency"/></td>
                 <td><c:out value="${revenue.date}"/></td>
                 <td><c:out value="${revenue.description}"/></td>
                 <td><c:out value="${revenue.getAccount().getId()}"/></td>
