@@ -8,6 +8,7 @@ import com.group4.service.accountService.IAccountService;
 import config.SingletonConnection;
 
 import java.sql.*;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -131,4 +132,35 @@ public class RevenueService implements IRevenueService {
         }
         return result;
     }
+
+    @Override
+    public List<Revenue> findAllByAccountId(int account_id) {
+        List<Revenue> revenues = new ArrayList<>();
+        System.out.println(SELECT_REVENUES_BY_ACCOUNT_ID);
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_REVENUES_BY_ACCOUNT_ID);
+            preparedStatement.setInt(1, account_id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int id =  resultSet.getInt("id");
+                String type = resultSet.getString("type");
+                double amount = resultSet.getDouble("amount");
+                Date date = resultSet.getDate("date");
+                String description = resultSet.getString("description");
+
+                Account account = accountService.findById(account_id);
+
+                revenues.add(new Revenue(id, type, description, amount, date, account));
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return revenues;
+    }
+
+
+
 }
