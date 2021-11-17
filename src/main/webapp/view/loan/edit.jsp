@@ -57,9 +57,7 @@
         <button type="submit">Submit</button>
         <button type="reset">Clear</button>
     </form>
-    <a href="/books">Home page</a>
+    <a href="/loans">Home page</a>
 </fieldset>
 </body>
-</html>
-
 </html>
