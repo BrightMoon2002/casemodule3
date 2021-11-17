@@ -2,6 +2,7 @@ package com.group4.service.accountService;
 
 import com.group4.model.account.Account;
 import com.group4.model.account.Role;
+
 import com.group4.service.roleService.IRoleService;
 import com.group4.service.roleService.RoleService;
 import config.SingletonConnection;
@@ -126,5 +127,18 @@ public class AccountService implements IAccountService {
             throwables.printStackTrace();
         }
         return rowDelete;
+    }
+
+    public Account checkLogin(String username,String password){
+        Account account = null;
+        List<Account>accountList = findAll();
+        for (Account a : accountList) {
+            if (a.getUsername().equals(username)
+                    && a.getPassword().equals(password)) {
+                account = a;
+                break;
+            }
+        }
+        return account;
     }
 }
