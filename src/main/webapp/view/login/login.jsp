@@ -194,9 +194,14 @@
             <input type="password" name="password" required="">
             <label>Password</label>
         </div>
-        <input type="submit" value="Log In" class="btn btn-outline-info">
+        <input type="submit" value="Log In" class="btn btn-outline-info" >
     </form>
-    <a href="/login?action=create"><input type="submit" value="Create New Account" class="btn btn-outline-info"></a>
+    <a href="/login?action=create"><input type="submit" value="Create New Account" class="btn btn-outline-info" ></a>
+    <p style="color: red; text-align: center" >
+        <c:if test="${message!= null}">
+            <span>${message}</span>
+        </c:if>
+    </p>
 </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>

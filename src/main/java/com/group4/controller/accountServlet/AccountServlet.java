@@ -1,4 +1,4 @@
-package com.group4.controller;
+package com.group4.controller.accountServlet;
 
 
 import com.group4.model.account.Account;
@@ -46,7 +46,7 @@ public class AccountServlet extends HttpServlet {
                 showUserPage(request, response);
                 break;
             case "showAdminPage":
-                showAdminPage(request,response);
+                showAdminPage(request, response);
             default:
                 showLogin(request, response);
                 break;
@@ -59,6 +59,8 @@ public class AccountServlet extends HttpServlet {
         if (session != null) {
             Account accountLogin = (Account) session.getAttribute("account");
             List<Account> accountList = (List<Account>) session.getAttribute("accountList");
+            Account account = (Account) session.getAttribute("account");
+            request.setAttribute("account", account);
             request.setAttribute("accountList", accountList);
             request.setAttribute("accountLogin", accountLogin);
             try {
@@ -135,11 +137,12 @@ public class AccountServlet extends HttpServlet {
         if (account != null) {
             HttpSession session = request.getSession();
             if (account.getRole().getName().equalsIgnoreCase("user")) {
-                session.setAttribute("account", account);
+                session.setAttribute("accountLogging", account);
                 response.sendRedirect("/login?action=showUserPage");
             } else {
                 session.setAttribute("account", account);
                 session.setAttribute("accountList", accountList);
+                session.setAttribute("accountLogging", account);
                 response.sendRedirect("/login?action=showAdminPage");
             }
         } else {
@@ -155,7 +158,7 @@ public class AccountServlet extends HttpServlet {
 
 
     private void CreateAccount(HttpServletRequest request, HttpServletResponse response) {
-        List<Account>accountList = accountService.findAll();
+        List<Account> accountList = accountService.findAll();
         boolean check = true;
         String username = request.getParameter("username");
         for (Account value : accountList) {
@@ -164,7 +167,7 @@ public class AccountServlet extends HttpServlet {
                 break;
             }
         }
-        if(check){
+        if (check) {
             String password = request.getParameter("password");
             String name = request.getParameter("name");
             String dob = request.getParameter("dob");

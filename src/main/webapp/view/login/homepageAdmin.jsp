@@ -13,6 +13,7 @@
 </head>
 
 <body>
+<h1><a href="/spending?id=${account.id}">aaa</a></h1>
 <table>
     <c:forEach items="${accountList}" var="a">
         <tr>
