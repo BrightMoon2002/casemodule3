@@ -25,7 +25,7 @@
 <center>
     <div align="center">
         <table border="1" cellpadding="5">
-            <caption><h2>List of Revenues</h2></caption>
+            <caption><h2>List of Loan</h2></caption>
             <tr>
                 <th>Name</th>
                 <th>Amount</th>
