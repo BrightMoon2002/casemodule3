@@ -23,17 +23,23 @@
             </tr>
             <tr><td>Start of Loan:  </td>
                 <td>
-                    <input type="text" name="startOfLoan" value="${loanEdit.getStartOfLoan()}">
+                    <input type="date" name="startOfLoan" value="${loanEdit.getStartOfLoan()}">
                 </td>
             </tr>
             <tr> <td>End of Loan: </td>
                 <td>
-                    <input type="text" name="endOfLoan" value="${loanEdit.getEndOfLoan()}">
+                    <input type="date" name="endOfLoan" value="${loanEdit.getEndOfLoan()}">
                 </td>
             </tr>
             <tr> <td>Amount:  </td>
                 <td>
                     <input type="number" name="amount" value="${loanEdit.getAmount()}">
+                </td>
+            </tr>
+            </tr>
+            <tr> <td>status:  </td>
+                <td>
+                    <input type="text" name="status" value="${loanEdit.getStatus().getName()}">
                 </td>
             </tr>
             <tr> <td>Interest:  </td>
