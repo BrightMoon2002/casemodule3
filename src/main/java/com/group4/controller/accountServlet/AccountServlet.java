@@ -1,13 +1,9 @@
 package com.group4.controller.accountServlet;
-
-
 import com.group4.model.account.Account;
 import com.group4.model.account.Role;
 import com.group4.service.accountService.AccountService;
 import com.group4.service.roleService.IRoleService;
 import com.group4.service.roleService.RoleService;
-import org.w3c.dom.html.HTMLParagraphElement;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -40,9 +36,14 @@ public class AccountServlet extends HttpServlet {
             case "delete":
 //                    deleteUser(request, response);
                 break;
+            case "showAccountList":
+                showAccountList(request,response);
+                break;
             case "showUserPage":
                 showUserPage(request, response);
                 break;
+            case "showAdminCreateAccount":
+                showAdminCreateAccount(request,response);
             case "showAdminPage":
                 showAdminPage(request, response);
                 break;
@@ -52,6 +53,27 @@ public class AccountServlet extends HttpServlet {
             default:
                 showLogin(request, response);
                 break;
+        }
+    }
+
+    private void showAdminCreateAccount(HttpServletRequest request, HttpServletResponse response) {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("view/login/adminCreateAccount.jsp");
+        try {
+            dispatcher.forward(request,response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void showAccountList(HttpServletRequest request, HttpServletResponse response) {
+        List<Account>accountList = accountService.findAll();
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/login/listAccountWithAdmin.jsp");
+        request.setAttribute("accountList",accountList);
+        try {
+            requestDispatcher.forward(request,response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -149,8 +171,14 @@ public class AccountServlet extends HttpServlet {
             case "checkLogin":
                 checkLogin(request, response);
                 break;
+            case "showAdminCreateAccount":
+                adminCreateAccount(request,response);
 
         }
+
+    }
+
+    private void adminCreateAccount(HttpServletRequest request, HttpServletResponse response) {
 
     }
 
