@@ -7,6 +7,7 @@
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <title>Revenue Management Application</title>
@@ -37,7 +38,7 @@
             <c:forEach var="loan" items="${list}">
                 <tr>
                     <td><c:out value="${loan.account.name}"/></td>
-                    <td><c:out value="${loan.amount}"/></td>
+                    <td><fmt:formatNumber value = "${loan.getAmount()}" type = "currency"/></td>
                     <td><c:out value="${loan.startOfLoan}"/></td>
                     <td><c:out value="${loan.endOfLoan}"/></td>
                     <td><c:out value="${loan.getInterest().getName()}"/></td>
