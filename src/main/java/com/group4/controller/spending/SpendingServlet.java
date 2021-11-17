@@ -67,6 +67,9 @@ public class SpendingServlet extends HttpServlet {
     }
 
     private void showDeleteSpending(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        Spending spending = spendingDAO.findById(id);
+        request.setAttribute("spending",spending);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/spending/delete.jsp");
         requestDispatcher.forward(request,response);
     }
