@@ -102,7 +102,7 @@ public class SpendingServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
         Account account = null;
         if (session!=null){
-            account = (Account) session.getAttribute("account");
+            account = (Account) session.getAttribute("accountLogging");
         }
         int id_account = account.getId();
         if (account.getRole().getId()==1){
