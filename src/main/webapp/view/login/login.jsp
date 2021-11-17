@@ -185,7 +185,7 @@
 <body>
 <div class="login-box">
     <h2>Login</h2>
-    <form method="post" action="/login?action=checkLogin&id=${account.getId()}">
+    <form method="post" action="/login?action=checkLogin">
         <div class="user-box">
             <input type="text" name="username" required="">
             <label>Username</label>

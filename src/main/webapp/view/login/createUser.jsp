@@ -59,6 +59,11 @@
             </tr>
             <tr>
                 <th>Username:</th>
+                <p>
+                    <c:if test="${message1!= null}">
+                        <span>${message1}</span>
+                    </c:if>
+                </p>
                 <td><input type="text" name="username" placeholder="Nhập tên đăng nhập" size="45"></td>
             </tr>
             <tr>
