@@ -109,6 +109,7 @@ public class AccountService implements IAccountService {
             preparedStatement.setString(6, account.getAddress());
             preparedStatement.setBoolean(7, account.isStatus());
             preparedStatement.setInt(8, account.getRole().getId());
+            preparedStatement.setInt(9, account.getId());
             rowUpdate = preparedStatement.executeUpdate()>0;
         } catch (SQLException throwables) {
             throwables.printStackTrace();

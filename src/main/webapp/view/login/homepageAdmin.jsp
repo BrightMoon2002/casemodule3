@@ -22,6 +22,7 @@
     </c:forEach>
 </table>
 <a href="revenue?action=revenue&id=${accountLogin.id}">List All Revenues</a>
+<a href="/spending">List All Spending</a>
 <h2>
 
 </h2>

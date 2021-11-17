@@ -34,10 +34,10 @@
                 <td><c:out value="${spending.amount}"/></td>
                 <td><c:out value="${spending.date}"/></td>
                 <td>
-                    <a href="/users?action=edit&id=${spending.id}">Edit</a>
+                    <a href="/spending?action=edit&id=${spending.id}">Edit</a>
                 </td>
                 <td>
-                    <a href="/users?action=delete&id=${spending.id}">Delete</a>
+                    <a href="/spending?action=delete&id=${spending.id}">Delete</a>
                 </td>
             </tr>
         </c:forEach>
