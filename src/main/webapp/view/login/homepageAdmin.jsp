@@ -20,6 +20,10 @@
         </tr>
     </c:forEach>
 </table>
+<a href="revenue?action=revenue&id=${accountLogin.id}">List All Revenues</a>
+<h2>
+
+</h2>
 
 </body>
 </html>

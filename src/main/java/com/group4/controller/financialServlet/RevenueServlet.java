@@ -68,33 +68,40 @@ public class RevenueServlet extends HttpServlet {
 
 
     private void listRevenue(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Account accountLogin = accountService.findById(2);
-        double amountTotal = 0;
+        HttpSession session = request.getSession(false);
+        Account account = null;
+        if (session != null) {
+            account = (Account) session.getAttribute("account");
+        }
+
+
+        double revenueTotal = 0;
         List<Revenue> listRevenue = null;
-        if (accountLogin.getRole().getId() == 1) {
+        System.out.println(account.getId());
+        if (account.getRole().getId() == 1) {
             try {
                 listRevenue = revenueService.findAll();
                 for (Revenue r : listRevenue) {
-                    amountTotal += r.getAmount();
+                    revenueTotal += r.getAmount();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            request.setAttribute("listRevenue", listRevenue);
-            request.setAttribute("amountTotal", amountTotal);
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/revenue/list.jsp");
-            requestDispatcher.forward(request, response);
-        } else if (accountLogin.getRole().getId() == 2) {
-            listRevenue = revenueService.findAllByAccountId(accountLogin.getId());
-            for (Revenue r : listRevenue) {
-                amountTotal += r.getAmount();
-            }
-            request.setAttribute("listRevenue", listRevenue);
-            request.setAttribute("amountTotal", amountTotal);
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/revenue/list.jsp");
-            requestDispatcher.forward(request, response);
+                    e.printStackTrace();
+                }
+                request.setAttribute("listRevenue", listRevenue);
+                request.setAttribute("revenueTotal", revenueTotal);
+                request.setAttribute("account", account);
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/revenue/list.jsp");
+                requestDispatcher.forward(request, response);
+            } else if (account.getRole().getId() == 2) {
+                listRevenue = revenueService.findAllByAccountId(account.getId());
+                for (Revenue r : listRevenue) {
+                    revenueTotal += r.getAmount();
+                }
+                request.setAttribute("listRevenue", listRevenue);
+                request.setAttribute("amountTotal", revenueTotal);
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/revenue/list.jsp");
+                requestDispatcher.forward(request, response);
         }
-
     }
 
     private void showCreateForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

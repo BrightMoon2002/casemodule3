@@ -57,8 +57,10 @@ public class AccountServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("view/login/homepageAdmin.jsp");
         HttpSession session = request.getSession(false);
         if (session != null) {
+            Account accountLogin = (Account) session.getAttribute("account");
             List<Account> accountList = (List<Account>) session.getAttribute("accountList");
             request.setAttribute("accountList", accountList);
+            request.setAttribute("accountLogin", accountLogin);
             try {
                 dispatcher.forward(request, response);
             } catch (ServletException e) {
@@ -136,6 +138,7 @@ public class AccountServlet extends HttpServlet {
                 session.setAttribute("account", account);
                 response.sendRedirect("/login?action=showUserPage");
             } else {
+                session.setAttribute("account", account);
                 session.setAttribute("accountList", accountList);
                 response.sendRedirect("/login?action=showAdminPage");
             }
