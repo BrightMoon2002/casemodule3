@@ -21,19 +21,19 @@
             </caption>
             <tr>
                 <th>Type:</th>
-                <td><input type="text" name="type"  size="45"></td>
+                <td><input type="text" name="type"  size="45" placeholder="<c:out value="${spending.type}"/>"></td>
             </tr>
             <tr>
                 <th>Description:</th>
-                <td><input type="text" name="description"  size="45"></td>
+                <td><input type="text" name="description"  placeholder="<c:out value="${spending.description}"/>"></td>
             </tr>
             <tr>
-                <th>Date:</th>
-                <td><input type="text" name="date"></td>
+                <th>Description:</th>
+                <td><input type="text" name="description"  placeholder="<c:out value="${spending.amount}"/>"></td>
             </tr>
             <tr>
-                <th>Amount:</th>
-                <td><input type="text" name="amount" id="amount" size="45"></td>
+                <th>Description:</th>
+                <td><input type="text" name="description"  placeholder="<c:out value="${spending.date}"/>"></td>
             </tr>
             <tr>
                 <td colspan="2" align="center">
