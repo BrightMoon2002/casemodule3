@@ -51,13 +51,6 @@
                     <input type="text" name="description" id="description" size="15"/>
                 </td>
             </tr>
-            <tr>
-                <th>Account ID: </th>
-                <td>
-                    <input type="text" name="account_id" id="account_id" size="15"/>
-                </td>
-
-            </tr>
 
             <tr>
                 <td colspan="2" align="center">

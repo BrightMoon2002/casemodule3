@@ -69,40 +69,48 @@ public class RevenueServlet extends HttpServlet {
 
     private void listRevenue(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-        Account account = null;
+        Account accountLogging = null;
         if (session != null) {
-            account = (Account) session.getAttribute("account");
-        }
+            accountLogging = (Account) session.getAttribute("accountLogging");
 
-
-        double revenueTotal = 0;
-        List<Revenue> listRevenue = null;
-        System.out.println(account.getId());
-        if (account.getRole().getId() == 1) {
-            try {
-                listRevenue = revenueService.findAll();
-                for (Revenue r : listRevenue) {
-                    revenueTotal += r.getAmount();
-                }
-            } catch (SQLException e) {
+            double revenueTotal = 0;
+            List<Revenue> listRevenue = null;
+            System.out.println(accountLogging.getId());
+            if (accountLogging.getRole().getId() == 1) {
+                try {
+                    listRevenue = revenueService.findAll();
+                    for (Revenue r : listRevenue) {
+                        revenueTotal += r.getAmount();
+                    }
+                } catch (SQLException e) {
                     e.printStackTrace();
                 }
                 request.setAttribute("listRevenue", listRevenue);
                 request.setAttribute("revenueTotal", revenueTotal);
-                request.setAttribute("account", account);
+                request.setAttribute("accountLogging", accountLogging);
+                request.setAttribute("role", accountLogging.getRole().getId());
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/revenue/list.jsp");
                 requestDispatcher.forward(request, response);
-            } else if (account.getRole().getId() == 2) {
-                listRevenue = revenueService.findAllByAccountId(account.getId());
+            } else if (accountLogging.getRole().getId() == 2) {
+                listRevenue = revenueService.findAllByAccountId(accountLogging.getId());
                 for (Revenue r : listRevenue) {
                     revenueTotal += r.getAmount();
                 }
                 request.setAttribute("listRevenue", listRevenue);
+                request.setAttribute("accountLogging", accountLogging);
                 request.setAttribute("amountTotal", revenueTotal);
+                request.setAttribute("role", accountLogging.getRole().getId());
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/revenue/list.jsp");
                 requestDispatcher.forward(request, response);
+            }
+
+
+
+            } else {
+            response.sendRedirect("view/error/error404.jsp");
         }
-    }
+        }
+
 
     private void showCreateForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/revenue/create.jsp");
@@ -110,19 +118,26 @@ public class RevenueServlet extends HttpServlet {
     }
 
     private void createRevenue(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String type = request.getParameter("type");
-        double amount = Double.parseDouble(request.getParameter("amount"));
-        Date date = Date.valueOf(request.getParameter("date"));
-        String description = request.getParameter("description");
-        int account_id = Integer.parseInt(request.getParameter("account_id"));
+        HttpSession session = request.getSession(false);
+        Account accountLogging = null;
+        if (session != null) {
+            accountLogging = (Account) session.getAttribute("accountLogging");
+            String type = request.getParameter("type");
+            double amount = Double.parseDouble(request.getParameter("amount"));
+            Date date = Date.valueOf(request.getParameter("date"));
+            String description = request.getParameter("description");
+            int account_id = accountLogging.getId();
 
-        Account account = accountService.findById(account_id);
+            Account account = accountService.findById(account_id);
 
-        Revenue revenue = new Revenue(type,description, amount, date, account);
+            Revenue revenue = new Revenue(type,description, amount, date, account);
 
-        revenueService.save(revenue);
+            revenueService.save(revenue);
 
-        listRevenue(request, response);
+            listRevenue(request, response);
+        }
+
+
     }
 
 
@@ -135,33 +150,77 @@ public class RevenueServlet extends HttpServlet {
             e.printStackTrace();
         }
 
+        HttpSession session = request.getSession(false);
+        Account accountLogging = null;
+        if (session != null) {
+            accountLogging = (Account) session.getAttribute("accountLogging");
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/revenue/edit.jsp");
+            request.setAttribute("revenue", existingRevenue);
+            request.setAttribute("role", accountLogging.getRole().getId());
+            requestDispatcher.forward(request, response);
+        }
 
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/revenue/edit.jsp");
-        request.setAttribute("revenue", existingRevenue);
-        requestDispatcher.forward(request, response);
+
 
 
     }
 
     private void editRevenue(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        String type = request.getParameter("type");
-        double amount = Double.parseDouble(request.getParameter("amount"));
-        Date date = Date.valueOf(request.getParameter("date"));
-        String description = request.getParameter("description");
-        int account_id = Integer.parseInt(request.getParameter("account_id"));
+        HttpSession session = request.getSession(false);
+        Account accountLogging = null;
+        if (session != null) {
+            accountLogging = (Account) session.getAttribute("accountLogging");
+            if (accountLogging.getRole().getId() == 1) {
+                int id = Integer.parseInt(request.getParameter("id"));
+                String type = request.getParameter("type");
+                double amount = Double.parseDouble(request.getParameter("amount"));
+                Date date = Date.valueOf(request.getParameter("date"));
+                String description = request.getParameter("description");
+                int account_id = Integer.parseInt(request.getParameter("account_id"));
 
-        Account account = accountService.findById(account_id);
+                Account account = accountService.findById(account_id);
 
-        Revenue revenue = new Revenue(id, type,description, amount, date, account);
+                Revenue revenue = new Revenue(id, type,description, amount, date, account);
 
-        try {
-            revenueService.update(revenue);
-        } catch (SQLException e) {
-            e.printStackTrace();
+                try {
+                    revenueService.update(revenue);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+                listRevenue(request, response);
+            } else if (accountLogging.getRole().getId() == 2) {
+                int id = Integer.parseInt(request.getParameter("id"));
+                String type = request.getParameter("type");
+                double amount = 0;
+                try {
+                    amount = revenueService.findById(id).getAmount();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                Date date = null;
+                try {
+                    date = revenueService.findById(id).getDate();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                String description = request.getParameter("description");
+                int account_id = accountLogging.getId();
+
+                Account account = accountService.findById(account_id);
+
+                Revenue revenue = new Revenue(id, type,description, amount, date, account);
+
+                try {
+                    revenueService.update(revenue);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+                listRevenue(request, response);
+            }
         }
 
-        listRevenue(request, response);
 
     }
 
@@ -195,29 +254,37 @@ public class RevenueServlet extends HttpServlet {
     }
 
     private void findRevenueById(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        Revenue revenue = null;
-        try {
-            revenue = revenueService.findById(id);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        HttpSession session = request.getSession(false);
+        Account accountLogging = null;
+        if (session != null) {
+            accountLogging = (Account) session.getAttribute("accountLogging");
+
+            int id = Integer.parseInt(request.getParameter("id"));
+            Revenue revenue = null;
+            try {
+                revenue = revenueService.findById(id);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            if  (revenue == null || revenue.getAccount().getId() != accountLogging.getId() ) {
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/revenue/find.jsp");
+                request.setAttribute("message", "Couldn't find the revenue");
+                requestDispatcher.forward(request, response);
+
+
+
+            } else {
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/revenue/find.jsp");
+                request.setAttribute("revenue", revenue);
+                request.setAttribute("result", true);
+                requestDispatcher.forward(request, response);
+
+            }
+        }
         }
 
-        if  (revenue == null) {
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/revenue/find.jsp");
-            request.setAttribute("message", "Couldn't find the revenue");
-            requestDispatcher.forward(request, response);
 
-
-
-        } else {
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/revenue/find.jsp");
-            request.setAttribute("revenue", revenue);
-            request.setAttribute("result", true);
-            requestDispatcher.forward(request, response);
-
-        }
-    }
 
 
 

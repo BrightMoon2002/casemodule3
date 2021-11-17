@@ -45,7 +45,9 @@
                     <td><c:out value="${revenue.getAccount().getId()}"/></td>
                     <td>
                         <a href="/revenue?action=edit&id=${revenue.id}">Edit</a>
-                        <a href="/revenue?action=delete&id=${revenue.id}">Delete</a>
+                        <c:if test="${role == 1}">
+                            <a href="/revenue?action=delete&id=${revenue.id}">Delete</a>
+                        </c:if>
                     </td>
                 </tr>
             </c:forEach>
