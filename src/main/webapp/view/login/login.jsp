@@ -185,7 +185,7 @@
 <body>
 <div class="login-box">
     <h2>Login</h2>
-    <form method="post" action="/login?action=checkLogin">
+    <form method="post" action="/login?action=checkLogin&id=${account.getId()}">
         <div class="user-box">
             <input type="text" name="username" required="">
             <label>Username</label>
@@ -194,8 +194,9 @@
             <input type="password" name="password" required="">
             <label>Password</label>
         </div>
-        <input type="submit" value="Login">
+        <input type="submit" value="Log In" class="btn btn-outline-info">
     </form>
+    <a href="/login?action=create"><input type="submit" value="Create New Account" class="btn btn-outline-info"></a>
 </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
