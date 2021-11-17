@@ -2,6 +2,8 @@ package com.group4.service.financial.Revenue;
 
 import com.group4.model.account.Account;
 import com.group4.model.financial.Revenue;
+import com.group4.service.accountService.AccountService;
+import com.group4.service.accountService.IAccountService;
 import config.SingletonConnection;
 
 import java.sql.*;
