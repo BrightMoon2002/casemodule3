@@ -56,7 +56,6 @@ public class AccountServlet extends HttpServlet {
         }
     }
 
-<<<<<<< HEAD
     private void showAdminCreateAccount(HttpServletRequest request, HttpServletResponse response) {
         RequestDispatcher dispatcher = request.getRequestDispatcher("view/login/adminCreateAccount.jsp");
         try {
@@ -78,8 +77,7 @@ public class AccountServlet extends HttpServlet {
         }
     }
 
-=======
->>>>>>> 801086d06b2d9b5a2d843e3bbe38a6f6a988b502
+
     //logout account
     private void logoutAccount(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
