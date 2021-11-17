@@ -1,21 +1,21 @@
-package com.group4.model.financial;
+package com.group4.model.limit;
 
 import com.group4.model.account.Account;
 
-public class Spending_Month_Limit {
+public class SpendingMonthLimit {
     private int id;
     private double amount;
     private Account account;
 
-    public Spending_Month_Limit() {
+    public SpendingMonthLimit() {
     }
 
-    public Spending_Month_Limit(double amount, Account account) {
+    public SpendingMonthLimit(double amount, Account account) {
         this.amount = amount;
         this.account = account;
     }
 
-    public Spending_Month_Limit(int id, double amount, Account account) {
+    public SpendingMonthLimit(int id, double amount, Account account) {
         this.id = id;
         this.amount = amount;
         this.account = account;

@@ -183,7 +183,6 @@
 
 </style>
 <body>
-
 <div class="login-box">
     <h2>Login</h2>
     <form method="post" action="/login?action=checkLogin">
