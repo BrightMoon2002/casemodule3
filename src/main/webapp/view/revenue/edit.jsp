@@ -5,6 +5,7 @@
   Time: 10:59 PM
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -43,7 +44,7 @@
                 <tr>
                     <th>Amount:</th>
                     <td>
-                        <input type="text" name="amount" id="amount" size="45"  value="<c:out value='${revenue.amount}'/>"/>
+                        <input type="text" name="amount" id="amount" size="45"  value="<td><fmt:formatNumber value = "${revenue.amount}" type = "currency"/></td>"/>
                     </td>
                 </tr>
             <tr>

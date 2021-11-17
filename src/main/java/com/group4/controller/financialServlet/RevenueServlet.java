@@ -73,20 +73,26 @@ public class RevenueServlet extends HttpServlet {
         if (session != null) {
             accountLogging = (Account) session.getAttribute("accountLogging");
 
-            double revenueTotal = 0;
+            double revenueTotalUser = 0;
+            double revenueTotalAdmin = 0;
             List<Revenue> listRevenue = null;
+            List<Revenue> listRevenueUser = null;
             System.out.println(accountLogging.getId());
             if (accountLogging.getRole().getId() == 1) {
-                try {
-                    listRevenue = revenueService.findAll();
-                    for (Revenue r : listRevenue) {
-                        revenueTotal += r.getAmount();
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                listRevenue = revenueService.findAllByAccountId(accountLogging.getId());
+                listRevenueUser = revenueService.findAllNotByAccountId(accountLogging.getId());
+                for (Revenue r : listRevenueUser) {
+                    revenueTotalUser += r.getAmount();
                 }
+                for (Revenue r : listRevenue) {
+                    revenueTotalAdmin += r.getAmount();
+                }
+
+
                 request.setAttribute("listRevenue", listRevenue);
-                request.setAttribute("revenueTotal", revenueTotal);
+                request.setAttribute("listRevenueUser", listRevenueUser);
+                request.setAttribute("revenueTotalUser", revenueTotalUser);
+                request.setAttribute("revenueTotalAdmin", revenueTotalAdmin);
                 request.setAttribute("accountLogging", accountLogging);
                 request.setAttribute("role", accountLogging.getRole().getId());
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/revenue/list.jsp");
@@ -94,11 +100,11 @@ public class RevenueServlet extends HttpServlet {
             } else if (accountLogging.getRole().getId() == 2) {
                 listRevenue = revenueService.findAllByAccountId(accountLogging.getId());
                 for (Revenue r : listRevenue) {
-                    revenueTotal += r.getAmount();
+                    revenueTotalUser += r.getAmount();
                 }
                 request.setAttribute("listRevenue", listRevenue);
                 request.setAttribute("accountLogging", accountLogging);
-                request.setAttribute("amountTotal", revenueTotal);
+                request.setAttribute("revenueTotalUser", revenueTotalUser);
                 request.setAttribute("role", accountLogging.getRole().getId());
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/revenue/list.jsp");
                 requestDispatcher.forward(request, response);
@@ -282,10 +288,6 @@ public class RevenueServlet extends HttpServlet {
 
             }
         }
-        }
-
-
-
-
+    }
 
 }
